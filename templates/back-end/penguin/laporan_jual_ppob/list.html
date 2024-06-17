@@ -1,0 +1,259 @@
+{include file="$include_tpl/includes/head.html"}
+
+<!--sidebar-->
+{include file="$include_tpl/includes/sidebar.html"}
+<!--/sidebar-->
+	
+<!--Page Container-->
+<section class="main-container">
+
+    <!--Page Header-->
+    <div class="header">
+        <div class="header-content">
+            <div class="page-title">
+                <i class="icon-table position-left"></i>{$title} 
+            </div>
+            <ul class="breadcrumb">
+                <li><a href="{$adminweburl}">Beranda</a></li>
+                <li><a href="{$adminweburl}/dashboard/">{$title}</a></li>
+                <li class="active">{$sub_title}</li>
+            </ul>					
+        </div>
+    </div>		
+    <!--/Page Header-->
+
+    <!--Page Detail-->
+    <div class="container-fluid page-content">
+        <div class="panel panel-flat">
+            <div class="panel-body no-padding-bottom">
+                <div class="form-group">
+                    <div id="alert_success" class="form-group" style="display: none;">                         
+                        <div class="alert alert-info">&nbsp;</div>
+                    </div>
+
+                    <div id="alert_error" class="form-group" style="display: none;">
+                        <div class="alert alert-danger">&nbsp;</div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td width="20%" style="padding: 10px;"><label>Dari Tanggal:</label></td>
+                            <td width="80%">
+                                <table width="100%">
+                                    <tr>
+                                        <td width="40%">
+                                            <input type="text" value="{$tanggal_dari}" class="form-control pickadate" name="tanggal_dari" placeholder="Klik Untuk Memilih Tanggal" />
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <label>Sd. Tanggal:</label>
+                                        </td>
+                                        <td width="40%">
+                                            <input type="text" value="{$tanggal_sampai}" class="form-control pickadate" name="tanggal_sampai" placeholder="Klik Untuk Memilih Tanggal" />                                        
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" style="padding: 8px;"><label>Pencarian Username:</label></td>
+                            <td width="80%">
+                                <table>
+                                    <tr>
+                                        <td width="100%"><input type="text" value="{$query}" class="form-control" name="query" id="query" placeholder="Ketik username yang dicari..." /></td>
+                                        <td width="5px">&nbsp;</td> 
+                                        <td><div id="btn_cari" type="submit" class="btn btn-primary">Cari</div></td>
+                                        <td width="5px">&nbsp;</td> 
+                                        <td><a class="btn btn-default" href="list.php">Reset</a></td>  
+                                    </tr>
+                                </table>
+                            </td>
+                    </tr>
+                    </table>
+                </div>
+
+                <!-- div class="form-group">
+                    <div id="ekspor_xls" class="btn btn-info">Eksport To Xls</div>
+                    <div id="ekspor_pdf" class="btn btn-info">Eksport To Pdf</div>
+                </div -->
+
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-togglable table-hover">
+                    <thead>
+                        <tr>
+                            <th width="5%"><div style="text-align: center;">No.</div></th>
+                            <th width="10%"><div style="text-align: center;">No. Trx</div></th>
+                            <th width="15%"><div style="text-align: center;">Tanggal</div></th>
+                            <th width="10%"><div style="text-align: center;">Username</div></th>
+                            <th width="20%"><div style="text-align: center;">Produk</div></th>
+                            <th width="10%"><div style="text-align: center;">No. Tujuan</div></th>
+                            <th width="10%"><div style="text-align: center;">Beli</div></th>
+                            <th width="10%"><div style="text-align: center;">Jual</div></th>
+                            <th width="10%"><div style="text-align: center;">Laba</div></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {assign var="no" value=1}
+                        {foreach $listdetail as $entry}                                    
+                            <tr id="baris_{$entry.id}">
+                                <td align="center">{$limitpage*($currentpage-1)+$no}</td>
+                                <td align="center">{$entry.kode}</td>
+                                <td align="center">{$entry.tanggal}</td>
+                                <td align="left">{$entry.username}</td>
+                                <td align="left">{$entry.description}</td>
+                                <td align="left">{$entry.nomer_tujuan}</td>
+                                <td align="right"><span style="font-weight: bold;">{$entry.beli}</span></td>                                                                                   
+                                <td align="right"><span style="font-weight: bold;">{$entry.jual}</span></td>                                                                                   
+                                <td align="right"><span style="font-weight: bold;">{$entry.laba}</span></td>                                                                                   
+                            </tr>
+                            {assign var="no" value=$no+1}  
+                        {/foreach}
+
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td align="right"><span style="font-weight: bold;">TOTAL:&nbsp;&nbsp;</span></td>
+                            <td>&nbsp;</td>
+                            <td align="right"><span style="font-weight: bold;">{$beli}</span></td>
+                            <td align="right"><span style="font-weight: bold;">{$jual}</span></td>
+                            <td align="right"><span style="font-weight: bold;">{$laba}</span></td>
+                        </tr>
+                    </tbody>
+
+                    {if $totalpage gt 1}
+                        <tfoot><tr><th colspan="9">
+                            <div style="text-align: center;">
+                                {if $currentpage gt 1}
+                                    <a class="btn btn-default" href="list.php?page={$currentpage-1}{if $tanggal_dari neq ''}&tanggal_dari={$tanggal_dari}{/if}{if $tanggal_sampai neq ''}&tanggal_sampai={$tanggal_sampai}{/if}{if $query neq ''}&query={$query}{/if}">&larr; Prev</a>
+                                {/if}
+
+                                {assign var="item" value=$frompage}
+                                {for $foo=$frompage to $untilpage}
+                                    {if $item eq $currentpage}
+                                        <span class="btn btn-info">{$item}</span>                                
+                                    {else}
+                                        <a class="btn btn-default" href="list.php?page={$item}{if $tanggal_dari neq ''}&tanggal_dari={$tanggal_dari}{/if}{if $tanggal_sampai neq ''}&tanggal_sampai={$tanggal_sampai}{/if}{if $query neq ''}&query={$query}{/if}">{$item}</a>
+                                    {/if}
+                                    {assign var="item" value=$item+1}                                
+                                {/for}
+
+                                {if $totalpage gt $currentpage}
+                                    <a class="btn btn-default" href="list.php?page={$currentpage+1}{if $tanggal_dari neq ''}&tanggal_dari={$tanggal_dari}{/if}{if $tanggal_sampai neq ''}&tanggal_sampai={$tanggal_sampai}{/if}{if $query neq ''}&query={$query}{/if}">Next &rarr;</a>
+                                {/if}
+                            </div>  
+                        </th></tr></tfoot>
+                    {/if}
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--/Page Detail-->
+
+    <!--Footer -->
+    {include file="$include_tpl/includes/footer.html"}
+    <!--/Footer-->
+
+</section>
+<!--/Page Container-->	
+
+<!-- Global scripts -->
+<script src="{$tpl_dir}/js/jquery.js"></script>	
+<script src="{$tpl_dir}/js/bootstrap.js"></script>
+<script src="{$tpl_dir}/js/jquery.ui.js"></script>
+<script src="{$tpl_dir}/js/nav.accordion.js"></script>	
+<script src="{$tpl_dir}/js/hammerjs.js"></script>
+<script src="{$tpl_dir}/js/jquery.hammer.js"></script>
+<script src="{$tpl_dir}/js/scrollup.js"></script>	
+<script src="{$tpl_dir}/js/jquery.slimscroll.js"></script>	
+<script src="{$tpl_dir}/js/smart-resize.js"></script>
+<script src="{$tpl_dir}/js/blockui.min.js"></script>		
+<script src="{$tpl_dir}/js/wow.min.js"></script>					
+<script src="{$tpl_dir}/js/fancybox.min.js"></script>
+<script src="{$tpl_dir}/js/venobox.js"></script>
+<script src="{$tpl_dir}/js/forms/uniform.min.js"></script>
+<script src="{$tpl_dir}/js/forms/switchery.js"></script>
+<script src="{$tpl_dir}/js/forms/select2.min.js"></script>	
+<script src="{$tpl_dir}/js/core.js"></script>
+<!-- /global scripts -->
+<script type="text/javascript" src="{$tpl_dir}/js/moment.min.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/legacy.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/daterangepicker.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/picker.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/picker.date.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/picker.time.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/spectrum.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/pages/pickers.js"></script>
+<!-- Page scripts -->
+<script src="{$tpl_dir}/js/tables/footable.min.js"></script>
+<script src="{$tpl_dir}/js/pages/tables_responsive.js"></script>
+<!-- /page scripts -->
+
+    <script type="text/javascript">
+        $(function () {
+            //$('.tanggal').datepick({ dateFormat: 'dd-mm-yyyy' });
+            $( "#btn_cari" ).click(function() {                
+                var tanggal_dari = $( '[name=tanggal_dari]' ).val();
+                var tanggal_sampai = $( '[name=tanggal_sampai]' ).val();
+                var query = $( "#query" ).val();
+                /*alert('list.php?_'+(query.length>0?'&query='+query:'')+
+                    (tanggal_dari.length>0?'&tanggal_dari='+tanggal_dari:'')+
+                    (tanggal_sampai.length>0?'&tanggal_sampai='+tanggal_sampai:''));*/
+            
+                window.location='list.php?_'+(query.length>0?'&query='+query:'')+
+                    (tanggal_dari.length>0?'&tanggal_dari='+tanggal_dari:'')+
+                    (tanggal_sampai.length>0?'&tanggal_sampai='+tanggal_sampai:'');            
+            });
+
+            function setMessage(type, message) {
+                $('#alert_'+type+' .alert').text(message);
+                $('#alert_'+type).show('slow');
+                setTimeout(function() {
+                    $('#alert_'+type).hide('slow');
+                }, 5000);
+                $("body, html").animate({ 
+                    scrollTop: $('#wrapper').offset().top 
+                }, 600);
+            }        
+
+            $( "#ekspor_xls" ).click(function() {
+                var tanggal_dari = $( '[name=tanggal_dari]' ).val();
+                var tanggal_sampai = $( '[name=tanggal_sampai]' ).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'ekspor.php?tanggal_dari='+tanggal_dari+'&tanggal_sampai='+tanggal_sampai,
+                    cache: false,
+                    dataType: 'json',
+                    processData: false, // Don't process the files
+                    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                    success: function(data, textStatus, jqXHR) {
+                        if(data['success']) {
+                            window.location = '{$adminweburl}/readFile.php?name=' + data['filename'];
+                        } else {
+                            setMessage('error', data['message']);
+                        }
+                    }, 
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        setMessage('error', 'Terjadi kesalahan system.');
+                    }
+                });
+            });
+
+            $( "#ekspor_pdf" ).click(function() {
+                var tanggal_dari = $( '[name=tanggal_dari]' ).val();
+                var tanggal_sampai = $( '[name=tanggal_sampai]' ).val();
+                var url = 'cetak.php?tanggal_dari='+tanggal_dari+'&tanggal_sampai='+tanggal_sampai;
+                window.open(url, '_blank');
+            });
+        });
+    </script>
+</body>{include file="$include_tpl/includes/footer_js.html"}
+</html>

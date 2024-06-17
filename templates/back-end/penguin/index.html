@@ -1,0 +1,936 @@
+{include file="$include_tpl/includes/head.html"}
+	<!--sidebar-->
+	{include file="$include_tpl/includes/sidebar.html"}
+	<!--/sidebar-->
+	
+	<!--Page Container-->
+	<section class="main-container">	
+			<!--Page Header-->
+			<div class="header">
+				<div class="header-content">
+					<div class="page-title"><i class="icon-display4"></i> {$title}</div>
+					<ul class="breadcrumb">
+						<li><a href="{$adminweburl}">Beranda</a></li>
+						<li><a href="{$adminweburl}/dashboard/">{$title}</a></li>
+						<li class="active">{$sub_title}</li>
+					</ul>					
+				</div>
+			</div>		
+			<!--/Page Header-->
+			
+			<div class="container-fluid page-content">
+			
+				<div class="row">
+					<div class="col-md-3">
+						<div class="panel panel-flat">
+							<div class="panel-body p-b-10">
+								<div class="row">
+									<div class="col-md-8 col-xs-8">
+										<div class="text-size-huge text-regular text-blue-dark text-semibold no-padding no-margin m-t-5 m-b-10">{$dashboard.jumlah_pengunjung}</div>
+										<span class="text-muted">Total Jumlah Pengunjung</span>
+									</div>
+									<div class="col-md-4 col-xs-4">
+										<i class="icon-statistics icon-4x icon-light"></i>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer bg-blue">							
+								<div class="elements">
+									<span class="heading-text text-semibold">Pengunjung</span>
+									<a href="index1.htm#" class="pull-right no-padding-right text-white">View all <i class="icon-arrow-right6 position-right"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-3">
+						<div class="panel panel-flat">
+							<div class="panel-body p-b-10">
+								<div class="row">
+									<div class="col-md-8 col-xs-8">
+										<div class="text-size-huge text-regular text-danger-dark text-semibold no-padding no-margin m-t-5 m-b-10">{$dashboard.jumlah_lunas}</div>
+										<span class="text-muted">Total Pembayaran Lunas</span>
+									</div>
+									<div class="col-md-4 col-xs-4">
+										<i class="icon-cash icon-4x icon-light"></i>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer bg-danger">							
+								<div class="elements">
+									<span class="heading-text text-semibold">Lunas</span>
+									<a href="index1.htm#" class="pull-right no-padding-right text-white">View all <i class="icon-arrow-right6 position-right"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-3">
+						<div class="panel panel-flat">
+							<div class="panel-body p-b-10">
+								<div class="row">
+									<div class="col-md-8 col-xs-8">
+										<div class="text-size-huge text-regular text-success-dark text-semibold no-padding no-margin m-t-5 m-b-10">{$dashboard.jumlah_belum_lunas}</div>
+										<span class="text-muted">Total Belum Lunas</span>
+									</div>
+									<div class="col-md-4 col-xs-4">
+										<i class="icon-cart5 icon-4x icon-light"></i>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer bg-success">							
+								<div class="elements">
+									<span class="heading-text text-semibold">Keep</span>
+									<a href="index1.htm#" class="pull-right no-padding-right text-white">View all <i class="icon-arrow-right6 position-right"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-3">
+						<div class="panel panel-flat">
+							<div class="panel-body p-b-10">
+								<div class="row">
+									<div class="col-md-8 col-xs-8">
+										<div class="text-size-huge text-regular text-amber-dark text-semibold no-padding no-margin m-t-5 m-b-10">{$dashboard.jumlah_pelanggan}</div>
+										<span class="text-muted">Total Orders</span>
+									</div>
+									<div class="col-md-4 col-xs-4">
+										<i class="icon-users icon-4x icon-light"></i>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer bg-amber">							
+								<div class="elements">
+									<span class="heading-text text-semibold">Pelanggan</span>
+									<a href="index1.htm#" class="pull-right no-padding-right text-white">View all <i class="icon-arrow-right6 position-right"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>						
+				</div>			
+				
+				<div class="panel panel-flat">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel-heading">Statistik Penjualan</div>
+								<div class="panel-body">
+									<div style="width:100%; height:100%;" id="layarfullscreen">123</div>                     
+								</div>
+							</div>		
+
+						</div> 	
+					</div>
+				</div>
+				
+				<div class="panel panel-flat">
+					<div class="panel-heading">
+						<h4 class="panel-title">Peringatan Stok  &nbsp;&nbsp;<span class="label label-danger">{$stok_totalrecord}{if $stok_totalrecord gt 0} items{/if}</span></h4>				
+					</div>
+					<div class="table-responsive">
+						<table class="table table-hover user-list">
+							<thead>
+								<tr>
+									<th>No</th>							
+									<th>Product</th>
+									<th>Ukuran</th>							
+									<th>Warna</th>						
+									<th>Sisa Stok</th>
+									<th align="center">Aksi</th>							
+								</tr>
+							</thead>
+							<tbody>
+
+								{assign var="no" value=1}
+
+								{foreach $stok_listdetail as $entry}                                    
+
+									<tr id="baris_{$entry.id}">
+
+										<td align="center">{$limitpage*($stok_currentpage-1)+$no}</td>
+
+										<td align="left">{$entry.nama} ({$entry.kode})</td>
+
+										<td align="left">{$entry.ukuran}</td>
+
+										<td align="left">{$entry.warna}</td>
+
+										<td align="left">{$entry.jumlah} Pcs</td>
+
+										<td><div style="text-align: center;  white-space: nowrap;">
+
+												<a href="{$adminweburl}/product/edit.php?id={$entry.id}" class="btn btn-success update">Edit Stok</a>
+
+											</div>
+
+										</td>                                          
+
+									</tr>
+
+									{assign var="no" value=$no+1}  
+
+								{/foreach}
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+<!--Pesanan Baru-->	
+				<div class="panel panel-flat">
+					<div class="panel-heading">
+						<h4 class="panel-title">Pesanan Baru &nbsp;&nbsp;<span class="label label-danger">{$pemesanan_totalrecord}{if $pemesanan_totalrecord gt 0} items{/if}</span></h4>				
+					</div>
+					<div class="table-responsive">
+						<table class="table table-hover user-list">
+							<thead>
+
+								<tr>
+
+									<th width="5%"><div style="text-align: center;">No.</div></th>
+
+									<th width="15%"><div style="text-align: left;">Tanggal</div></th>
+
+									<th width="20%"><div style="text-align: left;">Kode</div></th>
+
+									<th width="25%"><div style="text-align: left;">Pelanggan</div></th>                                    
+
+									<th width="15%"><div style="text-align: left;">Jumlah</div></th>
+
+									<th width="15%"><div style="text-align: left;">Total</div></th>    
+
+									<th width="5%"><div style="text-align: center;">Aksi</div></th>
+
+								</tr>
+
+							</thead>
+
+							<tbody>
+
+								{assign var="no" value=1}
+
+								{foreach $pemesanan_listdetail as $entry}                                    
+
+									<tr id="baris_{$entry.id}">
+
+										<td align="center">{$limitpage*($pemesanan_currentpage-1)+$no}</td>
+
+										<td align="left">{$entry.waktu}</td>
+
+										<td align="left">#{$entry.kode} {if $entry.is_dropship eq 'Y'}<span class="label label-danger">DROPSHIP</span>{/if}</td>
+
+										<td align="left">{if $entry.id_member eq 0}Tamu{else}{$entry.nama}{/if}</td>
+
+										<td align="left">{$entry.jumlah} Pcs</td>
+
+										<td align="left">Rp. {$entry.total}</td>
+
+										<td><div style="text-align: center;  white-space: nowrap;">
+
+												<a href="{$adminweburl}/pemesanan/list.php?query={$entry.kode}" class="btn btn-success update">Detail</a>
+
+											</div>
+
+										</td>                                          
+
+									</tr>
+
+									{assign var="no" value=$no+1}  
+
+								{/foreach}
+
+							</tbody>
+
+							{if $pemesanan_totalpage gt 1}
+
+							<tfoot><tr><th colspan="8">
+
+								<div style="text-align: center;">
+
+									{if $pemesanan_currentpage gt 1}                                
+
+										<a class="btn btn-default" href="{$adminweburl}/dashboard/index.php?page_pemesanan={$pemesanan_currentpage-1}&page_stok={$stok_currentpage}&page_konfirmasi={$konfirmasi_currentpage}">&larr; Prev</a>
+
+									{/if}
+
+									{assign var="item" value=$pemesanan_frompage}
+
+									{for $foo=$pemesanan_frompage to $pemesanan_untilpage}
+
+										{if $item eq $pemesanan_currentpage}
+
+											<span class="btn btn-info">{$item}</span>                                
+
+										{else}
+
+											<a class="btn btn-default" href="{$adminweburl}/dashboard/index.php?page_pemesanan={$item}&page_stok={$stok_currentpage}&page_konfirmasi={$konfirmasi_currentpage}">{$item}</a>
+
+										{/if}
+
+										{assign var="item" value=$item+1}                                
+
+									{/for}
+
+									{if $pemesanan_totalpage gt $pemesanan_currentpage}                                
+
+										<a class="btn btn-default" href="{$adminweburl}/dashboard/index.php?page_pemesanan={$pemesanan_currentpage+1}&page_stok={$stok_currentpage}&page_konfirmasi={$konfirmasi_currentpage}">Next &rarr;</a>
+
+									{/if}                                
+
+								</div>  
+
+							</th></tr></tfoot>{/if}
+						</table>
+					</div>
+				</div>
+				
+<!--Konfirmasi Pembayaran-->	
+				<div class="panel panel-flat">
+					<div class="panel-heading">
+						<h4 class="panel-title">Konfirmasi Pembayaran &nbsp;&nbsp;<span class="label label-danger">{$konfirmasi_totalrecord}{if $konfirmasi_totalrecord gt 0} items{/if}</span></h4>				
+					</div>
+					<div class="table-responsive">
+						<table class="table table-hover user-list">
+							<thead>
+
+								<tr>
+
+									<th width="5%"><div style="text-align: left;">No.</div></th>
+
+									<th width="15%"><div style="text-align: left;">Tanggal</div></th>
+
+									<th width="15%"><div style="text-align: left;">Kode</div></th>
+
+									<th width="25%"><div style="text-align: left;">Pelanggan</div></th>                                    
+
+									<th width="20%"><div style="text-align: left;">Bank Tujuan</div></th>    
+
+									<th width="15%"><div style="text-align: left;">Jumlah</div></th>
+
+									<th width="5%"><div style="text-align: center;">Aksi</div></th>
+
+								</tr>
+
+							</thead>
+
+							<tbody>
+
+								{assign var="no" value=1}
+
+								{foreach $konfirmasi_listdetail as $entry}                                    
+
+									<tr id="baris_{$entry.id}">
+
+										<td align="center">{$limitpage*($konfirmasi_currentpage-1)+$no}</td>
+
+										<td align="left">{$entry.waktu}</td>
+
+										<td align="left">#{$entry.kode_pemesanan}</td>
+
+										<td align="left">{if $entry.id_member eq 0}Tamu{else}{$entry.nama}{/if}</td>
+
+										<td align="left">{$entry.nama_bank}</td>
+
+										<td align="left">Rp. {$entry.jumlah_transfer}</td>
+
+										<td><div style="text-align: center;  white-space: nowrap;">
+
+												<a href="{$adminweburl}/konfirmasi/list.php?query={$entry.kode_pemesanan}" class="btn btn-success update">Detail</a>
+
+											</div>
+
+										</td>                                          
+
+									</tr>
+
+									{assign var="no" value=$no+1}  
+
+								{/foreach}
+
+							</tbody>
+
+							{if $konfirmasi_totalpage gt 1}
+
+							<tfoot><tr><th colspan="8">
+
+								<div style="text-align: center;">
+
+									{if $konfirmasi_currentpage gt 1}                                
+
+										<a class="btn btn-default" href="{$adminweburl}/dashboard/index.php?page_konfirmasi={$konfirmasi_currentpage-1}&page_stok={$stok_currentpage}&page_pemesanan={$pemesanan_currentpage}">&larr; Prev</a>
+
+									{/if}
+
+									{assign var="item" value=$konfirmasi_frompage}
+
+									{for $foo=$konfirmasi_frompage to $konfirmasi_untilpage}
+
+										{if $item eq $konfirmasi_currentpage}
+
+											<span class="btn btn-info">{$item}</span>                                
+
+										{else}
+
+											<a class="btn btn-default" href="{$adminweburl}/dashboard/index.php?page_konfirmasi={$item}&page_stok={$stok_currentpage}&page_pemesanan={$pemesanan_currentpage}">{$item}</a>
+
+										{/if}
+
+										{assign var="item" value=$item+1}                                
+
+									{/for}
+
+									{if $konfirmasi_totalpage gt $konfirmasi_currentpage}                                
+
+										<a class="btn btn-default" href="{$adminweburl}/dashboard/index.php?page_konfirmasi={$konfirmasi_currentpage+1}&page_stok={$stok_currentpage}&page_pemesanan={$pemesanan_currentpage}">Next &rarr;</a>
+
+									{/if}                                
+
+								</div>  
+
+							</th></tr></tfoot>{/if}
+
+						</table>
+					</div>
+				</div>
+
+			<!--Rightbar Chat-->
+			<aside class="rightbar">
+				<div class="rightbar-container">
+					<div class="right-chat-bar">
+						<div class="coversation-header">
+							<div class="chat-back" data-popup="tooltip" data-placement="left" title="Back">
+								<i class="icon-arrow-left12"></i>
+							</div>
+							<div class="active-conversation">
+								<div class="chat-avatar">
+									<img src="{$tpl_dir}/assets/images/faces/face12.png" alt="user">
+								</div>
+								<div class="chat-user-status">
+									<ul>
+										<li class="text-semibold"> John Parker</li>
+										<li><small>Online</small></li>
+									</ul>
+								</div>
+							</div>
+							<div class="conversation-actions">
+								<ul>
+									<li><i class="icon-phone-wave" data-popup="tooltip" data-placement="bottom" title="Call"></i></li>
+									<li><i class="icon-attachment" data-popup="tooltip" data-placement="bottom" title="Send file"></i></li>
+									<li><i class="icon-mic2" data-popup="tooltip" data-placement="bottom" title="Send voice"></i></li>
+									<li><i class="icon-user-block" data-popup="tooltip" data-placement="bottom" title="Block"></i></li>					
+								</ul>
+							</div>
+						</div>
+						<div class="conversation-container">
+							<div class="conversation-row even">
+								<ul class="conversation-list">
+									<li>
+										<p>
+											Lorem ipsum dolor sit amet?
+										</p>
+									</li>							
+								</ul>
+							</div>
+							<div class="conversation-row odd">
+								<ul class="conversation-list">
+									<li>
+										<p>
+											Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus
+										</p>
+									</li>
+								</ul>
+							</div>
+							<div class="conversation-row even">
+								<ul class="conversation-list">
+									<li>
+										<p>
+											Maecenas nec odio et ante tincidunt tempus. 
+										</p>
+									</li>
+								</ul>
+							</div>
+							<div class="conversation-row even">
+								<ul class="conversation-list">
+									<li>						
+										<a href="{$tpl_dir}/assets/images/demo/pic7.jpg" class="venobox"><img src="{$tpl_dir}/assets/images/demo/pic7.jpg" alt=""/></a>
+									</li>
+								</ul>
+							</div>
+							<div class="conversation-row odd">
+								<ul class="conversation-list">
+									<li>
+										<p>
+											Donec sodales :)
+										</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="chat-text-input">			
+							<div class="input-group">
+								<input type="text" class="form-control input-xs" placeholder="Type a message...">
+								<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><i class="icon-enter5"></i></button>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="chat-user-toolbar clearfix">
+						<div class="chat-user-search pull-left">
+							<span class="addon-icon"><i class="icon-search4"></i></span>
+							<input type="text" class="form-control" placeholder="Search">
+						</div>
+						<div class="add-chat-list pull-right">
+							<i class="icon-user-plus" data-toggle="tooltip" data-placement="left" title="Add new user"></i>
+						</div>
+					</div>
+					
+					<div class="chat-user-container">			
+						<ul class="chat-user-list">
+							<li>
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face1.png" alt="Avatar"></span><span class="chat-u-info">Jane Elliott<cite>Li Europan lingues es...</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li>
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face2.png" alt="Avatar"></span><span class="chat-u-info">Florence Douglas<cite>Busy</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-online">
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face3.png" alt="Avatar"></span><span class="chat-u-info">Jacqueline Howell<cite>Available</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-online">
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face4.png" alt="Avatar"></span><span class="chat-u-info">Eugine Turner<cite>Occidental in fact...</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-busy">
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face5.png" alt="Avatar"></span><span class="chat-u-info">Andrew Brewer<cite>Busy</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-away">
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face6.png" alt="Avatar"></span><span class="chat-u-info">Jonaly Smith<cite>Available</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-online">
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face7.png" alt="Avatar"></span><span class="chat-u-info">Ann Porter<cite>Available</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-away">
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face8.png" alt="Avatar"></span><span class="chat-u-info">John Deo<cite>Do not disturb</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li>
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face9.png" alt="Avatar"></span><span class="chat-u-info">Marilyn Romero<cite>On refusa continuar payar...</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li>
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face10.png" alt="Avatar"></span><span class="chat-u-info">Carol Gibson<cite>Gone for a weekend</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li>
+								<div><span class="chat-avatar"><img src="{$tpl_dir}/assets/images/faces/face11.png" alt="Avatar"></span><span class="chat-u-info">Scott Ruiz<cite>At solmen va esser...</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+						</ul>						
+					</div>		
+				</div>
+			</aside>
+			<!--/Rightbar Chat-->
+					
+		</div>
+	
+		<!--Footer -->
+		{include file="$include_tpl/includes/footer.html"}
+		<!--/Footer-->
+		
+	</section>
+	<!--/Page Container-->
+	
+	<!-- div class="theme-switcher">
+		<span class="theme-switcher-icon">
+			<i class="icon icon-color-sampler"></i>
+		</span>
+		
+		<div class="themes-container">
+			<ul class="switch-theme-colors clearfix">
+				<li class="list-title">Light</li>
+				<li>
+					<div class="theme" id="light">
+						<img src="{$tpl_dir}/assets/images/themes/light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li class="list-title clearfix">Mirage</li>
+				<li>
+					<div class="theme pull-left" id="mirage">
+						<img src="{$tpl_dir}/assets/images/themes/mirage_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="mirage_light">
+						<img src="{$tpl_dir}/assets/images/themes/mirage_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="mirage_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/mirage_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>										
+				<li class="list-title clearfix">Burnt Sienna</li>
+				<li>
+					<div class="theme pull-left" id="burnt_sienna_dark">
+						<img src="{$tpl_dir}/assets/images/themes/burnt_sienna_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="burnt_sienna_light">
+						<img src="{$tpl_dir}/assets/images/themes/burnt_sienna_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="burnt_sienna_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/burnt_sienna_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>		
+
+				<li class="list-title clearfix">Amethyst</li>
+				<li>
+					<div class="theme pull-left" id="amethyst_dark">
+						<img src="{$tpl_dir}/assets/images/themes/amethyst_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="amethyst_light">
+						<img src="{$tpl_dir}/assets/images/themes/amethyst_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="amethyst_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/amethyst_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>		
+
+				<li class="list-title clearfix">Fuchsia Blue</li>
+				<li>
+					<div class="theme pull-left" id="fuchsiablue_dark">
+						<img src="{$tpl_dir}/assets/images/themes/fuchsiablue_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="fuchsiablue_light">
+						<img src="{$tpl_dir}/assets/images/themes/fuchsiablue_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="fuchsiablue_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/fuchsiablue_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+
+				<li class="list-title clearfix">Picton Blue</li>
+				<li>
+					<div class="theme pull-left" id="pictonblue_dark">
+						<img src="{$tpl_dir}/assets/images/themes/pictonblue_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="pictonblue_light">
+						<img src="{$tpl_dir}/assets/images/themes/pictonblue_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="pictonblue_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/pictonblue_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+				
+				<li class="list-title clearfix">Jungle Green</li>
+				<li>
+					<div class="theme pull-left" id="junglegreen_dark">
+						<img src="{$tpl_dir}/assets/images/themes/junglegreen_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="junglegreen_light">
+						<img src="{$tpl_dir}/assets/images/themes/junglegreen_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="junglegreen_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/junglegreen_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+				
+				<li class="list-title clearfix">Fern</li>
+				<li>
+					<div class="theme pull-left" id="fern_dark">
+						<img src="{$tpl_dir}/assets/images/themes/fern_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="fern_light">
+						<img src="{$tpl_dir}/assets/images/themes/fern_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="fern_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/fern_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+				
+				<li class="list-title clearfix">Sunglow</li>
+				<li>
+					<div class="theme pull-left" id="sunglow_dark">
+						<img src="{$tpl_dir}/assets/images/themes/sunglow_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="sunglow_light">
+						<img src="{$tpl_dir}/assets/images/themes/sunglow_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="sunglow_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/sunglow_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+				
+				<li class="list-title clearfix">Regent Grey</li>
+				<li>
+					<div class="theme pull-left" id="regentgrey_dark">
+						<img src="{$tpl_dir}/assets/images/themes/regentgrey_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="regentgrey_light">
+						<img src="{$tpl_dir}/assets/images/themes/regentgrey_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="regentgrey_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/regentgrey_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+			</ul>	
+		</div>
+	</div>
+
+--><a id="scrollTop" href="index1.htm#top"><i class="icon-arrow-up12"></i></a>	
+
+<!-- Global scripts -->
+<script src="{$tpl_dir}/js/jquery.js"></script>	
+<script src="{$tpl_dir}/js/bootstrap.js"></script>
+<script src="{$tpl_dir}/js/jquery.ui.js"></script>
+<script src="{$tpl_dir}/js/nav.accordion.js"></script>	
+<script src="{$tpl_dir}/js/hammerjs.js"></script>
+<script src="{$tpl_dir}/js/jquery.hammer.js"></script>
+<script src="{$tpl_dir}/js/scrollup.js"></script>	
+<script src="{$tpl_dir}/js/jquery.slimscroll.js"></script>	
+<script src="{$tpl_dir}/js/smart-resize.js"></script>
+<script src="{$tpl_dir}/js/blockui.min.js"></script>		
+<script src="{$tpl_dir}/js/wow.min.js"></script>					
+<script src="{$tpl_dir}/js/fancybox.min.js"></script>
+<script src="{$tpl_dir}/js/venobox.js"></script>
+<script src="{$tpl_dir}/js/forms/uniform.min.js"></script>
+<script src="{$tpl_dir}/js/forms/switchery.js"></script>
+<script src="{$tpl_dir}/js/forms/select2.min.js"></script>	
+<script src="{$tpl_dir}/js/core.js"></script>
+<!-- /global scripts -->	
+<!-- Page scripts -->
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+
+    <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+
+
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            $.ajax({
+
+                type: 'POST',
+
+                url: '{$adminweburl}/dashboard/statistikpenjualan.php',
+
+                //data: data,
+
+                cache: false,
+
+                dataType: 'json',
+
+                processData: false, // Don't process the files
+
+                contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+
+                success: function(data) {
+
+                    
+
+                    
+
+                    var tanggal = [];
+
+                    var jumlah = [];
+
+                    var topics = data['topics'];
+
+                    for(var key=topics.length-1; key>=0; key--) {
+
+                        tanggal[tanggal.length] = topics[key]['tanggal'];
+
+                        jumlah[jumlah.length] = 1*topics[key]['jumlah'];
+
+                        //console.log(topics[key]['jumlah']);
+
+                    }
+
+
+
+                    loadGrafik(tanggal, jumlah);
+
+                }, 
+
+                error: function() {
+
+
+
+                }
+
+            }); 
+
+            
+
+            
+
+            function loadGrafik(tanggal, jumlah) {
+
+                $('#layarfullscreen').highcharts({
+
+                    chart: {
+
+                        type: 'spline'
+
+                    },
+
+                    title: {
+
+                        text: ''
+
+                    },
+
+                    subtitle: {
+
+                        text: ''
+
+                    },
+
+                    xAxis: [{
+
+                        categories: tanggal,
+
+                        reversed: false,
+
+                        title: {
+
+                            text: 'Tanggal'
+
+                        },
+
+                        labels: {
+
+                            step: 1
+
+                        }
+
+                    }],
+
+                    yAxis: {
+
+                        title: {
+
+                            text: 'Penjualan'
+
+                        },
+
+                        labels: {
+
+                            formatter: function () {
+
+                                var val = this.value/1000000;
+
+                                val = val<0?(-1*val):val;
+
+                                return (Math.round(val*100)/100) +' JT';
+
+                            }
+
+                        }
+
+                    },
+
+
+
+                    plotOptions: {
+
+                        series: {
+
+                            stacking: 'normal'
+
+                        }
+
+                    },
+
+
+
+                    tooltip: {
+
+                        formatter: function () {
+
+                            var val = this.point.y/1000000;
+
+                            val = val<0?(-1*val):val;
+
+                            return '<b>' + this.series.name + ', Tanggal ' + this.point.category + '</b><br/>' +
+
+                                'Jumlah: ' + (Math.round(val*100)/100) +' JT';
+
+                        //Highcharts.numberFormat(Math.abs(this.point.y), 0);
+
+                        }
+
+                    },
+
+
+
+                    series: [{
+
+                        name: 'Penjualan',
+
+                        data: jumlah
+
+                    }]
+
+                });
+
+
+
+            };
+
+        });
+
+    </script>
+<!-- /page scripts -->
+</body>
+</html>

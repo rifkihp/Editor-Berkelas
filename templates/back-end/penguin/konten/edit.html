@@ -1,0 +1,359 @@
+{include file="$include_tpl/includes/head.html"}
+
+<!--sidebar-->
+{include file="$include_tpl/includes/sidebar.html"}
+<!--/sidebar-->
+
+<!--Page Container-->
+<section class="main-container">	
+    
+    <!--Page Header-->
+    <div class="header">
+        <div class="header-content">
+            <div class="page-title">
+                <i class="icon-table position-left"></i> {$title}
+            </div>
+            <ul class="breadcrumb">
+                <li><a href="{$adminweburl}">Beranda</a></li>
+                <li><a href="{$adminweburl}/dashboard/">{$title}</a></li>
+                <li class="active">{$sub_title}</li>
+            </ul>					
+        </div>
+    </div>		
+    <!--/Page Header-->
+
+    <div class="container-fluid page-content">				
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>{$title}</strong></h3>				
+                        <h5 class="panel-title">{$sub_title}</h5>				
+                    </div>
+
+                    <div class="panel-body">
+                        <div id="wrapper" class="row" style="margin: 5px;">                    
+                            <div id="alert_error" class="form-group" style="display: none;">
+                                <div class="alert alert-danger">&nbsp;</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="title">Judul:</label>
+                                <input type="text" value="{if $isEdit eq true}{$data[0].title}{/if}" class="form-control" name="title" placeholder="" />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="konten">Detail Konten:</label>
+                                <div class="summernote"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="title">Link Download:</label>
+                                <input type="text" value="{if $isEdit eq true}{$data[0].link_download}{/if}" class="form-control" name="link_download" placeholder="" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="videoId">Video ID Youtube:</label>
+                                <input type="text" value="{if $isEdit eq true}{$data[0].videoId}{/if}" class="form-control" name="videoId" placeholder="" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="duration">Durasi Video:</label>
+                                <input type="text" value="{if $isEdit eq true}{$data[0].duration}{/if}" class="form-control" name="duration" placeholder="" />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="kategori">Kategori Konten:</label>
+                                <select multiple class="form-control" name="id_kategori" style="height: 200px;">
+                                    {foreach $datacategory as $entry}
+                                        <option {if $entry.id_parent eq 0}style="font-weight: bold;"{/if} value="{$entry.id}" {if $isEdit eq true && $entry.is_select eq 'Y'} selected="selected" {/if}>{$entry.nama}</option>                                        
+                                    {/foreach}                            
+                                </select>
+                                <label>Gunakan tombol Ctrl untuk pilih lebih dari 1 kategori.</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="banner">Banner yang Terkait:</label>
+                                <select multiple class="form-control" name="id_banner" style="height: 200px;">
+                                    {foreach $databanner as $entry}
+                                        <option style="font-weight: bold;" value="{$entry.id}" {if $isEdit eq true && $entry.is_select eq 'Y'} selected="selected" {/if}>{$entry.nama}</option>                                        
+                                    {/foreach}                            
+                                </select>
+                                <label>Gunakan tombol Ctrl untuk pilih lebih dari 1 banner.</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="banner">Banner Konten:</label>                        
+                                <style type="text/css">
+                                    #div-banner .cropit-image-preview {
+                                        margin-bottom: 5px;
+                                        background-color: #a6bac4;
+                                        width: 1000px;
+                                        height: 500px;
+                                        cursor: move;
+                                    }
+    
+                                    #div-banner .H-new-kol-post-img {
+                                        margin-bottom: 5px;
+                                        width: 1000px;
+                                        height: 500px;                                
+                                    }
+                                </style>
+    
+                                <div id="div-banner" class="H-new-kol-post-img image-editor-banner">
+                                    <input id="fileupload_banner" type="file" name="fileupload_banner" style="display:none;" class="cropit-image-input" />
+                                    <div class="cropit-image-preview"></div>
+                                </div>
+    
+                                <div id="upload_banner" class="btn btn-primary">Upload</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="thumbnail">Thumbnail Konten:</label>                        
+                                <style type="text/css">
+                                    #div-thumbnail .cropit-image-preview {
+                                        margin-bottom: 5px;
+                                        background-color: #a6bac4;
+                                        width: 512px;
+                                        height: 512px;
+                                        cursor: move;
+                                    }
+    
+                                    #div-thumbnail .H-new-kol-post-img {
+                                        margin-bottom: 5px;
+                                        width: 512px;
+                                        height: 512px;                                
+                                    }
+                                </style>
+    
+                                <div id="div-thumbnail" class="H-new-kol-post-img image-editor-thumbnail">
+                                    <input id="fileupload_thumbnail" type="file" name="fileupload_thumbnail" style="display:none;" class="cropit-image-input" />
+                                    <div class="cropit-image-preview"></div>
+                                </div>
+    
+                                <div id="upload_thumbnail" class="btn btn-primary">Upload</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label"><input type="checkbox" name="tabpanel_1" {if $isEdit eq true && $data[0].tabpanel_1 eq 1}checked{/if} />&nbsp;&nbsp;&nbsp;{$tabmenu[0].nama}</label><br />
+                                <label class="control-label"><input type="checkbox" name="tabpanel_2" {if $isEdit eq true && $data[0].tabpanel_2 eq 1}checked{/if} />&nbsp;&nbsp;&nbsp;{$tabmenu[1].nama}</label><br />
+                                <label class="control-label"><input type="checkbox" name="tabpanel_3" {if $isEdit eq true && $data[0].tabpanel_3 eq 1}checked{/if} />&nbsp;&nbsp;&nbsp;{$tabmenu[2].nama}</label><br />
+                                <label class="control-label"><input type="checkbox" name="tabpanel_4" {if $isEdit eq true && $data[0].tabpanel_4 eq 1}checked{/if} />&nbsp;&nbsp;&nbsp;{$tabmenu[3].nama}</label><br />
+                                <label class="control-label"><input type="checkbox" name="tabpanel_5" {if $isEdit eq true && $data[0].tabpanel_5 eq 1}checked{/if} />&nbsp;&nbsp;&nbsp;{$tabmenu[4].nama}</label><br />
+                                <label class="control-label"><input type="checkbox" name="tabpanel_6" {if $isEdit eq true && $data[0].tabpanel_6 eq 1}checked{/if} />&nbsp;&nbsp;&nbsp;{$tabmenu[5].nama}</label><br />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="is_aktif">Tampilkan:</label>
+                                <select name="is_aktif" class="form-control">
+                                    <option value="0" {if $data[0].is_aktif eq 0} selected="selected" {/if}>TIDAK</option>
+                                    <option value="1" {if $data[0].is_aktif eq 1} selected="selected" {/if}>YA</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td width="100%">&nbsp;</td> 
+                                            <td nowrap>
+                                                <div id="i_loading" class="G-btn-animation" style="display: none;"><img src="{$tpl_dir}/assets/img/loading.gif" /></div>                  
+                                                <div id="btn_simpan" type="submit" class="btn btn-primary">Simpan</div>
+                                                <a id="btn_batal"  href="list.php" class="btn btn-warning">Batal</a>                                                        
+                                            </td>
+                                        </tr>
+                                    </tbody>                                
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+    <!--Footer -->
+    {include file="$include_tpl/includes/footer.html"}
+    <!--/Footer-->
+		
+</section>
+<!--/Page Container-->
+
+<a id="scrollTop" href="index1.htm#top"><i class="icon-arrow-up12"></i></a>	
+
+<!-- Global scripts -->
+<script src="{$tpl_dir}/js/jquery.js"></script>	
+<script src="{$tpl_dir}/js/bootstrap.js"></script>
+<script src="{$tpl_dir}/js/jquery.ui.js"></script>
+<script src="{$tpl_dir}/js/nav.accordion.js"></script>	
+<script src="{$tpl_dir}/js/hammerjs.js"></script>
+<script src="{$tpl_dir}/js/jquery.hammer.js"></script>
+<script src="{$tpl_dir}/js/scrollup.js"></script>	
+<script src="{$tpl_dir}/js/jquery.slimscroll.js"></script>	
+<script src="{$tpl_dir}/js/smart-resize.js"></script>
+<script src="{$tpl_dir}/js/blockui.min.js"></script>		
+<script src="{$tpl_dir}/js/wow.min.js"></script>					
+<script src="{$tpl_dir}/js/fancybox.min.js"></script>
+<script src="{$tpl_dir}/js/venobox.js"></script>
+<script src="{$tpl_dir}/js/forms/uniform.min.js"></script>
+<script src="{$tpl_dir}/js/forms/switchery.js"></script>
+<script src="{$tpl_dir}/js/forms/select2.min.js"></script>	
+<script src="{$tpl_dir}/js/core.js"></script>
+<!-- /global scripts -->
+
+<!-- Page scripts -->
+<script src="{$tpl_dir}/assets/js/jquery.cropit.js"></script>
+
+<link rel="stylesheet" href="{$tpl_dir}/assets/dist/summernote.css">
+<script type="text/javascript" src="{$tpl_dir}/assets/dist/summernote.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/assets/dist/summernote-ext-video.js"></script> 
+
+<!-- Page scripts -->
+<script src="{$tpl_dir}/assets/bootstrap-fileinput/js/fileinput.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/assets/js/jquery.input.formatter.js"></script>  
+
+<!-- include summernote -->
+<link rel="stylesheet" href="{$tpl_dir}/assets/dist/summernote.css">
+<script type="text/javascript" src="{$tpl_dir}/assets/dist/summernote.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/assets/dist/summernote-ext-video.js"></script> 
+<link href="{$tpl_dir}/assets/datepick/jquery.datepick.css" rel="stylesheet">
+<script src="{$tpl_dir}/assets/datepick/jquery.plugin.js"></script>
+<script src="{$tpl_dir}/assets/datepick/jquery.datepick.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        var isEdit = {if $isEdit eq true}true{else}false{/if};
+        $('.image-editor-banner').cropit({
+          smallImage: 'stretch'{if $data[0].banner neq ''},
+          imageState: {
+            src: '{$homeurl}/uploads/konten/banner/{$data[0].banner}',
+          }{/if}
+        });
+        
+        $('.image-editor-thumbnail').cropit({
+          smallImage: 'stretch'{if $data[0].thumbnail neq ''},
+          imageState: {
+            src: '{$homeurl}/uploads/konten/thumbnail/{$data[0].thumbnail}',
+          }{/if}
+        });
+
+
+        $('.summernote').summernote({
+            height: 170,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                //['fontname', ['fontname']],
+                //['fontsize', ['fontsize']], Still buggy
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                //['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                //['view', ['fullscreen' , 'codeview' ]],
+                ['help', ['help']]
+            ]
+        });
+
+        $(".summernote").code('{if $isEdit eq true}{$data[0].konten}{/if}');
+
+        function setErrorMessage(message) {
+            $('#alert_error .alert').text(message);
+            $('#alert_error').show('slow');
+            setTimeout(function() {
+                $('#alert_error').hide('slow');
+            }, 5000);
+            $("body, html").animate({ 
+                scrollTop: $('#wrapper').offset().top - 70
+            }, 600);
+        }
+        
+        $('#btn_simpan').click(function() {            
+            var data = new FormData();
+            data.append('id', isEdit?'{$data[0].id}':'');
+            data.append('title', $('[name=title]').val());
+            data.append('videoId', $('[name=videoId]').val());
+            data.append('duration', $('[name=duration]').val());
+            data.append('konten', $('.summernote').summernote().code().replace(/\n/, '<br />'));
+            data.append('link_download', $('[name=link_download]').val());
+            var imageDataBanner = $('.image-editor-banner').cropit('export');
+            data.append('filename_banner', imageDataBanner==undefined?'':imageDataBanner);
+            var imageDataThumbnail = $('.image-editor-thumbnail').cropit('export');
+            data.append('filename_thumbnail', imageDataThumbnail==undefined?'':imageDataThumbnail);
+            data.append('is_aktif', $('[name=is_aktif]').val());
+
+            var kategori = $('[name=id_kategori]').val();
+            var id_kategori = '';
+            for(var key in kategori) {
+                id_kategori+=(key>0?',':'')+kategori[key]
+            }
+            data.append('id_kategori', id_kategori);
+
+            var banner = $('[name=id_banner]').val();
+            var id_banner = '';
+            for(var key in banner) {
+                id_banner+=(key>0?',':'')+banner[key]
+            }
+            data.append('id_banner', id_banner);
+
+            data.append('tabpanel_1', $('[name=tabpanel_1]').is(':checked')?'1':'0');
+            data.append('tabpanel_2', $('[name=tabpanel_2]').is(':checked')?'1':'0');
+            data.append('tabpanel_3', $('[name=tabpanel_3]').is(':checked')?'1':'0');
+            data.append('tabpanel_4', $('[name=tabpanel_4]').is(':checked')?'1':'0');
+            data.append('tabpanel_5', $('[name=tabpanel_5]').is(':checked')?'1':'0');
+            data.append('tabpanel_6', $('[name=tabpanel_6]').is(':checked')?'1':'0');
+
+            setLoading(true);
+
+            $.ajax({
+                type: 'POST',
+                url: isEdit?'update.php':'save.php',
+                data: data,
+                cache: false,
+                dataType: 'json',
+                processData: false, // Don't process the files
+                contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                success: function(data) {
+                    setLoading(false);
+                    if(data['success']) {
+                        swal('Sukses', 'Record Data Batal Disimpan', 'success')
+                        window.location = 'list.php';                    
+                    } else {
+                        setErrorMessage(data['message']);                        
+                    }
+                }, 
+
+                error: function() {
+                    setLoading(false);
+                    setErrorMessage('Proses simpan data tidak berhasil!');
+                }
+
+            });
+        });
+
+        $('#upload_banner').click(function(){
+            $('#fileupload_banner').trigger('click'); 
+            return false;
+        });
+
+        $('#upload_thumbnail').click(function(){
+            $('#fileupload_thumbnail').trigger('click'); 
+            return false;
+        });
+
+        function setLoading(isLoading) {
+            if(isLoading) {
+                $('#i_loading').show();
+                $('#btn_simpan').hide();
+                $('#btn_batal').hide();
+            } else {
+                $('#i_loading').hide();
+                $('#btn_simpan').show(); 
+                $('#btn_batal').show();
+            }
+        }
+    });
+</script>
+</body>
+</html>

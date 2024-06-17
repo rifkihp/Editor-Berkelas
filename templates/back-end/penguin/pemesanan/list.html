@@ -1,0 +1,1383 @@
+{include file="$include_tpl/includes/head.html"}
+	<!--sidebar-->
+	{include file="$include_tpl/includes/sidebar.html"}
+	<!--/sidebar-->
+	<!--Page Container-->
+	<section class="main-container">	
+			<!--Page Header-->
+			<div class="header">
+				<div class="header-content">
+					<div class="page-title">
+						<i class="icon-table position-left"></i> {$title}
+					</div>
+					<ul class="breadcrumb">
+						<li><a href="{$adminweburl}">Beranda</a></li>
+						<li><a href="{$adminweburl}/pemesanan/">{$title}</a></li>
+						<li class="active">{$sub_title}</li>
+					</ul>					
+				</div>
+			</div>		
+			<!--/Page Header-->
+			
+			<div class="container-fluid page-content">				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-flat">
+							<div class="panel-heading">
+								<h3 class="panel-title"><strong>{$title}</strong></h3>				
+								<h5 class="panel-title">{$sub_title}</h5>				
+							</div>
+
+				<div class="panel panel-flat">
+                    <div class="form-group panel-body no-padding-bottom">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td width="20%" style="padding: 8px;"><label>Dari Tanggal:</label></td>
+                                <td width="80%">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="40%">
+                                                <input type="text" value="{$tanggal_dari}" class="form-control pickadate" name="tanggal_dari" placeholder="Klik Untuk Memilih Tanggal" />
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <label>Sampai Tanggal:</label>
+                                            </td>
+                                            <td width="40%">
+                                                <input type="text" value="{$tanggal_sampai}" class="form-control pickadate" name="tanggal_sampai" placeholder="Klik Untuk Memilih Tanggal" />                 
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%" style="padding: 8px;"><label>Jenis Pesanan:</label></td>
+                                <td width="80%">
+                                    <select id="filter_jenis" class="form-control" name="jenis" placeholder="Klik Untuk Memilih Jenis Pesanan">
+                                        <option value="0" {if $jenis eq '0'}selected="selected"{/if}>Klik Untuk Memilih Jenis Pesanan</option>
+                                        <option value="N" {if $jenis eq 'N'}selected="selected"{/if}>Bukan Dropship</option>
+                                        <option value="Y" {if $jenis eq 'Y'}selected="selected"{/if}>Dropship</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%" style="padding: 8px;"><label>Status Pembayaran:</label></td>
+                                <td width="80%">
+                                    <select id="filter_status" class="form-control" name="status"  placeholder="Klik Untuk Memilih Status Pembayaran">
+                                        <option value="0" {if $status eq '0'}selected="selected"{/if}>Klik Untuk Memilih Status Pembayaran</option>
+                                        <option value="N" {if $status eq 'N'}selected="selected"{/if}>Belum Lunas</option>
+                                        <option value="Y" {if $status eq 'Y'}selected="selected"{/if}>Lunas</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%" style="padding: 8px;"><label>Keyword Pencarian:</label></td>
+                                <td width="80%">
+                                    <table>
+                                        <tr>
+                                            <td width="100%"><input type="text" value="{$query}" class="form-control" name="query" id="query" placeholder="Masukan kata kunci pencarian..." /></td>
+                                            <td width="5px">&nbsp;</td> 
+                                            <td><div id="btn_cari" type="submit" class="btn btn-primary">Cari</div></td>
+                                            <td width="5px">&nbsp;</td> 
+                                            <td><a class="btn btn-default" href="list.php">Reset</a></td>  
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+				</div>
+					
+							<div class="table-responsive">
+								<table class="table datatable table-striped" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="1%"><div style="text-align: center;">No.</div></th>
+
+                                        <th width="90%"><div style="text-align: center;">Data Pemesanan</div></th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    {assign var="no" value=1}
+
+                                    {foreach $listdetail as $entry}                                    
+
+                                        <tr id="baris_{$entry.id}">
+
+                                            <!-- td align="center"><input type="checkbox" id_select="{$entry.id}" name="select_{$entry.id}" class="select" /></td -->
+
+                                            <td align="center">{$limitpage*($currentpage-1)+$no}</td>
+
+                                            <td>
+
+                                                <table width="100%">
+
+                                                    <!-- tr><td><b>ID</b> </td><td><b>:</b> {$entry.id}</td></tr -->
+
+                                                    <tr><td width="25%"><b>Kode Pemesanan</b>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><b>:</b> <a href="{$adminweburl}/pemesanan/list.php?_&query={$entry.kode_pemesanan}	" ><span style="font-weight: bold;">#{$entry.kode_pemesanan}</span></a></td></tr>
+
+                                                    <tr><td><b>Nama Pengguna</b> </td><td><b>:</b> {if $entry.id_member eq 0}Guest{else}{$entry.first_name} {$entry.last_name}{/if} ({$entry.email})</td></tr>
+
+                                                    <tr><td><b>Tanggal Pesan</b></td><td><b>:</b> {$entry.tanggal}</td></tr>
+
+                                                    <tr><td><b>Pengiriman Kepada</b> </td><td><b>:</b> {$entry.nama}</td></tr>
+
+                                                    <tr><td><b>Alamat</b></td><td><b>:</b> {$entry.alamat}</td></tr>
+
+                                                    <tr><td><b>No. HP</b></td><td><b>:</b> {$entry.no_hp}</td></tr>
+
+                                                    <tr><td><b>Total Belanja</b> </td><td><b>:</b> {$entry.total}</td></tr>                                                    
+
+                                                    <tr><td><b>Kurir Pengiriman</b> </td><td><b>:</b> {$entry.kurir}</td></tr>                                                    
+
+                                                    <tr><td><b>No. Resi</b> </td><td><b>:</b> <span id="text_no_resi_{$entry.id}">{$entry.no_resi}</span></td></tr>                                                    
+
+                                                    <tr><td><b>Jenis Pemesanan</b> </td><td><b>:</b> {if $entry.is_dropship eq 'Y'}<span style="color: red; font-weight: bold;">DROPSHIP</span>{else}<span style="color: green; font-weight: bold;">BUKAN DROPSHIP</span>{/if}</td></tr>
+
+                                                    <tr><td><b>Nama Dropship</b> </td><td><b>:</b> <span id="text_no_resi_{$entry.id}">{$entry.dropship_name}</span></td></tr>               
+                                                    <tr><td><b>No.Telpon Dropship</b> </td><td><b>:</b> <span id="text_no_resi_{$entry.id}">{$entry.dropship_phone}</span></td></tr>                                       
+                                                    <tr><td><b>Cara Pembayaran</b> </td><td><b>:</b> <span style="color: green; font-weight: bold;">{$entry.cara_bayar}</span></td></tr>
+
+                                                    <tr><td><b>Status Pembayaran</b> </td><td><b>:</b> <span id='text_pembayaran_{$entry.id}' style="color: {if $entry.status eq '0' || $entry.status eq '1' || $entry.status eq '3' || $entry.status eq '4' || $entry.status eq '7' || $entry.status eq '8'}red{else}green{/if}; font-weight: bold;">{if $entry.status eq '0' || $entry.status eq '1' || $entry.status eq '3' || $entry.status eq '4' || $entry.status eq '7' || $entry.status eq '8'}BELUM LUNAS{else if $entry.status eq '2' || $entry.status eq '5'|| $entry.status eq '6'}LUNAS{/if}</span></td></tr>
+
+                                                    <tr><td><b>Status Pemesanan</b> </td><td><b>:</b> <span id='text_status_{$entry.id}' style="font-weight: bold; color: {if $entry.status eq 0}orange{else if $entry.status eq 1}red{else if $entry.status eq 2 || $entry.status eq 7 || $entry.status eq 5 || $entry.status eq 6 || $entry.status eq 8}green{else if $entry.status eq 3}orange{else if $entry.status eq 4}red{/if};">{if $entry.status eq 0}Menunggu pembayaran Customer.{else if $entry.status eq 1}Pembayaran ditolak Admin.{else if $entry.status eq 2}Pesanan dalam proses.{else if $entry.status eq 3}Customer melakukan konfirmasi pembayaran.{else if $entry.status eq 4}Pemesanan dibatalakan oleh Admin.{else if $entry.status eq 5}Pesanan sudah diterima.{else if $entry.status eq 6}Pesanan telah dikirim.{else if $entry.status eq 7}Pesanan dalam proses.{else if $entry.status eq 8}Pesanan telah dikirim.{/if}</span></td></tr>
+
+                                                    <tr><td colspan="2">
+
+                                                    <div id="message_wrapper_{$entry.id}" style="margin-top: 10px; margin-bottom: 10px;">
+
+                                                        <div id="alert_error_{$entry.id}" class="form-group" style="display: none;">
+
+                                                            <div class="alert alert-danger">&nbsp;</div>
+
+                                                        </div>
+
+                                                        <div id="alert_success_{$entry.id}" class="form-group" style="display: none;">                         
+
+                                                            <div class="alert alert-info">&nbsp;</div>
+
+                                                        </div>                                                                
+
+                                                    </div>
+
+                                                    <div style="margin-top: 10px; margin-bottom: 10px;">
+
+                                                        {if 'B'|in_array:$array_akses && $entry.status lt 4}
+
+                                                            <div id="i_loading_batal_{$entry.id}" class="G-btn-animation" style="display: none;"><img src="{$tpl_dir}/assets/img/loading.gif" /></div>
+
+                                                            <button id="btn_batal_{$entry.id}" id_batal="{$entry.id}" type="button" class="btn btn-danger batal_pesan">Batalkan Pesanan</button>
+
+                                                        {/if}
+
+                                                        <button id="btn_histori_{$entry.id}" id_histori="{$entry.id}" type="button" class="btn btn-primary histori">Lihat Status</button>
+
+                                                        <button id="btn_detail_{$entry.id}" id_detail="{$entry.id}" type="button" class="btn btn-warning detail">Tampilkan Detail</button>
+
+                                                        <button id="btn_cetak_{$entry.id}" notrx="{$entry.kode_pemesanan}" type="button" class="btn btn-warning cetak">Cetak</button>
+                                                        
+                                                        <button onClick="$('#form-alamat-{$entry.id}').toggleClass('hide');" type="button" class="btn btn-succcess">Alamat Pengiriman</button>
+
+                                                        {if 'P'|in_array:$array_akses}{if $entry.status eq 2 || $entry.status eq 5 || $entry.status eq 6 || $entry.status eq 7 || $entry.status eq 8}<button id="btn_noresi_{$entry.id}" id_noresi="{$entry.id}" is_open="false" type="button" class="btn btn-info noresi">Proses Pengiriman</button>{/if}{/if}
+
+                                                        <!-- button id="btn_finish_{$entry.id}" id_finish="{$entry.id}" is_open="false" type="button" class="btn btn-danger finish">Tutup Transaksi</button -->
+
+                                                        
+
+                                                        <div id="detail_histori_{$entry.id}" class="table-responsive" style="margin-top: 10px; display: none;">
+
+                                                            <div class="form-group">
+
+                                                                <label for="histori_pemesanan">Histori Pemesanan:</label>
+
+                                                                <table class="table table-striped table-bordered table-hover" width="100%">
+
+                                                                    <thead>
+
+                                                                        <tr>
+
+                                                                            <th width="10%"><div style="text-align: center;">No.</div></th>
+
+                                                                            <th width="20%"><div style="text-align: center;">Tanggal Jam</div></th>                                        
+
+                                                                            <th width="70%"><div style="text-align: center;">Penjelasan</div></th>
+
+                                                                        </tr>
+
+                                                                    </thead>
+
+                                                                    <tbody>
+
+                                                                        {assign var="no_histori" value=1}
+
+                                                                        {foreach $entry.histori_status_pemesanan as $entry_history}
+
+                                                                            <tr id="baris_{$entry.id}">
+
+                                                                                <td align="center">{$limitpage*($currentpage-1)+$no_histori}</td>
+
+                                                                                <td align="center">{$entry_history.tanggal}</td>
+
+                                                                                <td align="left">{$entry_history.penjelasan}</td>
+
+                                                                            </tr>
+
+                                                                            {assign var="no_histori" value=$no_histori+1}  
+
+                                                                        {/foreach}
+
+                                                                    </tbody>                                         
+
+                                                                </table>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="table-responsive hide" id="form-alamat-{$entry.id}" style="margin-top: 10px;">
+
+                                                            <div class="form-group">
+                                                                <label for="histori_pemesanan">Alamat Pengiriman:</label>
+																<div class="table table-xlg" id="alamat-{$entry.id}"  style="width:100%">
+																		<p style="font-size: 20px;">Penerima : {$entry.nama_penerima}<hr></p>
+																		<p style="font-size: 20px;">Alamat : {$entry.alamat}<hr></p>
+																		<p style="font-size: 20px;">Telpon : {$entry.no_hp}<hr></p>
+																		<p style="font-size: 20px;">Pengirim : {$entry.nama_pengirim}<hr></p>
+																		<p style="font-size: 20px; text-transform: uppercase;">Kurir Pengiriman : {$entry.kurir}</p>
+																		<p style="font-size: 20px; text-transform: uppercase;">Kode Pemesanan : #{$entry.kode_pemesanan}</p>
+                                                                </div>
+																<button onClick="printalamat('alamat-{$entry.id}')" class="btn btn-success" type="button">Print Alamat Pengirman</button>
+    															<button class="btn" data-clipboard-action="copy" data-clipboard-target="#alamat-{$entry.id}">Copy Alamat Pengirman</button>						
+                                                            </div>
+
+                                                        </div>
+                                                        
+
+                                                        <div id="detail_detail_{$entry.id}" class="table-responsive" style="margin-top: 10px; display: none;">
+
+                                                            <div class="form-group">
+
+                                                                <label for="histori_pemesanan">Detail Barang:</label>
+
+                                                                <table class="table table-striped table-bordered table-hover" width="100%">
+
+                                                                    <thead>
+
+                                                                        <tr>
+
+                                                                            <th width="10%"><div style="text-align: center;">No.</div></th>
+
+                                                                            <th width="10%"><div style="text-align: center;">Gambar</div></th>
+
+                                                                            <th width="40%"><div style="text-align: center;">Nama Barang</div></th>
+
+                                                                            <th width="10%"><div style="text-align: center;">Qty</div></th>
+
+                                                                            <th width="10%"><div style="text-align: center;">Harga</div></th>
+
+                                                                            <th width="10%"><div style="text-align: center;">Diskon</div></th>
+                                                                        
+                                                                            <th width="15%"><div style="text-align: center;">Subtotal</div></th>
+
+                                                                            <th width="15%"><div style="text-align: center;">Grandtotal</div></th>
+
+                                                                        </tr>
+
+                                                                    </thead>
+
+                                                                    <tbody>
+
+                                                                        {assign var="no_detail" value=1}
+                                                                        {assign var="total" value=0}
+
+                                                                        {foreach $entry.detail_pemesanan as $entry_barang}
+
+                                                                            <tr id="baris_{$entry_barang.id}">
+
+                                                                                <td align="center">{$no_detail}</td>
+
+                                                                                <td align="center"><img src="{$homeurl}/uploads/produk/{$entry_barang.gambar}" width="48px" /></td>
+
+                                                                                <td align="left">{$entry_barang.nama} ({$entry_barang.kode}){if $entry_barang.ukuran neq ''}<br />Ukuran: {$entry_barang.ukuran}{/if}{if $entry_barang.warna neq ''}<br />Warna {$entry_barang.warna}{/if}</td>
+
+                                                                                <td align="center">{$entry_barang.jumlah}</td>
+
+                                                                                <td align="center"> Rp. {number_format($entry_barang.harga_jual)}</td>
+                                                                                <td align="center"> Rp. {number_format($entry_barang.harga_diskon)}</td>
+                                                                                <td align="right">{$entry_barang.sub_total}</td>
+
+                                                                                <td align="right">{$entry_barang.grand_total}</td>
+
+                                                                            </tr>
+
+                                                                            {assign var="no_detail" value=$no_detail+1}  
+                                                                            {$total = $total + $entry_barang.grand_total}  
+
+                                                                        {/foreach}
+                                                                            <tr id="baris_{$entry_barang.id}">
+
+                                                                                <td align="right" colspan="7">Voucher</td>
+
+                                                                                <td align="center">0</td>
+                                                                            </tr>
+                                                                            <tr id="baris_{$entry_barang.id}">
+
+                                                                                <td align="right" colspan="7">Ongkir</td>
+
+                                                                                <td align="center">0</td>
+                                                                            </tr>
+                                                                            <tr id="baris_{$entry_barang.id}">
+
+                                                                                <td align="right" colspan="7">Total</td>
+
+                                                                                <td align="center">{$total}</td>
+                                                                            </tr>
+                                                                        
+
+                                                                    </tbody>                                         
+
+                                                                </table>
+
+                                                            </div>
+
+                                                            <div class="form-group">
+
+                                                                {if 'E'|in_array:$array_akses}<button id_edit="{$entry.id}" type="button" class="btn btn-danger edit_pesanan">Edit</button>{/if}
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        
+
+                                                        {if 'P'|in_array:$array_akses}
+
+                                                        {if $entry.status eq 2 || $entry.status eq 5 || $entry.status eq 6 || $entry.status eq 7 || $entry.status eq 8}<div id="edit_no_resi_{$entry.id}" class="table-responsive" style="margin-top: 10px; display: none;">
+
+                                                            <div class="form-group">                                                                
+
+                                                                <table class="table table-striped table-bordered table-hover" width="100%">                                                                                                                                         
+
+                                                                    <tr>
+
+                                                                        <td width="25%"><label for="no_resi" style="padding: 7px 0 0 7px;">Status Pesanan:</label></td>
+
+                                                                        <td colspan="2" width="70%">
+
+                                                                            <select class="form-control" name="status_pesanan_{$entry.id}">
+
+                                                                                <option value="{if $entry.pembayaran eq 1}2{else}7{/if}" {if $entry.status eq 2 || $entry.status eq 7} selected="selected"{/if}>Pesanan Dalam Proses.</option>
+
+                                                                                <option value="{if $entry.pembayaran eq 1}6{else}8{/if}" {if $entry.status eq 6 || $entry.status eq 8} selected="selected"{/if}>Pesanan Sudah Dikirim.</option>
+
+                                                                                <option value="5" {if $entry.status eq 5} selected="selected"{/if}>Pesanan Sudah Diterima.</option>
+
+                                                                            </select>
+
+                                                                        </td>                                                                        
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+                                                                        <td width="25%"><label for="no_resi" style="padding: 7px 0 0 7px;">Resi Pengiriman:</label></td>
+
+                                                                        <td width="60%"><input type="text" value="{$entry.no_resi}" class="form-control" name="no_resi_{$entry.id}" placeholder="" /></td>
+
+                                                                        <td width="15%">
+
+                                                                            <div id="i_loading_noresi_{$entry.id}" class="G-btn-animation" style="display: none;"><img src="{$tpl_dir}/assets/img/loading.gif" /></div>
+
+                                                                            <button id="btn_simpan_noresi_{$entry.id}" id_noresi="{$entry.id}" type="button" class="btn btn-danger simpan_noresi">Update Status</button>
+
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                </table>
+
+                                                            </div>
+
+                                                        </div>{/if}
+
+                                                        {/if}
+
+                                                        
+
+                                                        <!-- div id="edit_finish_{$entry.id}" class="table-responsive" style="margin-top: 10px; display: none;">
+
+                                                            <div class="form-group">
+
+                                                                
+
+                                                                <label for=""></label>
+
+                                                                <table class="table table-striped table-bordered table-hover" width="100%">                                                                    
+
+                                                                    <tr>
+
+                                                                        <td width="25%"><label for="nama_penerima" style="padding: 7px 0 0 7px;">Penerima Paket:</label></td>
+
+                                                                        <td width="60%"><input type="text" value="" class="form-control" name="nama_penerima_{$entry.id}" placeholder="" /></td>
+
+                                                                        <td width="15%">
+
+                                                                            <div id="i_loading_finish_{$entry.id}" class="G-btn-animation" style="display: none;"><img src="{$tpl_dir}/assets/img/loading.gif" /></div>
+
+                                                                            <button id="btn_simpan_finish_{$entry.id}" id_finish="{$entry.id}" type="button" class="btn btn-danger simpan_finish">Paket Sudah Diterima</button>
+
+                                                                        </td>
+
+                                                                    </tr>                                                                    
+
+                                                                </table>
+
+                                                            </div>
+
+                                                        </div -->
+
+                                                    </div></td></tr>
+
+                                                </table>
+
+                                            </td>
+
+                                        </tr>
+
+                                        {assign var="no" value=$no+1}  
+
+                                    {/foreach}
+
+                                </tbody>
+
+                                {if $totalpage gt 1}
+
+                                <tfoot><tr><th colspan="3">
+
+                                    <div style="text-align: center;">
+
+                                        {if $currentpage gt 1}                                
+
+                                            <a class="btn btn-default" href="list.php?page={$currentpage-1}{if $tanggal_dari neq ''}&tanggal_dari={$tanggal_dari}{/if}{if $tanggal_sampai neq ''}&tanggal_dari={$tanggal_sampai}{/if}{if $jenis neq '0'}&jenis={$jenis}{/if}{if $status neq '0'}&status={$status}{/if}{if $query neq ''}&query={$query}{/if}">&larr; Prev</a>
+
+                                        {/if}
+
+                                        {assign var="item" value=$frompage}
+
+                                        {for $foo=$frompage to $untilpage}
+
+                                            {if $item eq $currentpage}
+
+                                                <span class="btn btn-info">{$item}</span>                                
+
+                                            {else}
+
+                                                <a class="btn btn-default" href="list.php?page={$item}{if $tanggal_dari neq ''}&tanggal_dari={$tanggal_dari}{/if}{if $tanggal_sampai neq ''}&tanggal_dari={$tanggal_sampai}{/if}{if $jenis neq '0'}&jenis={$jenis}{/if}{if $status neq '0'}&status={$status}{/if}{if $query neq ''}&query={$query}{/if}">{$item}</a>
+
+                                            {/if}
+
+                                            {assign var="item" value=$item+1}                                
+
+                                        {/for}
+
+                                        {if $totalpage gt $currentpage}                                
+
+                                            <a class="btn btn-default" href="list.php?page={$currentpage+1}{if $tanggal_dari neq ''}&tanggal_dari={$tanggal_dari}{/if}{if $tanggal_sampai neq ''}&tanggal_dari={$tanggal_sampai}{/if}{if $jenis neq '0'}&jenis={$jenis}{/if}{if $status neq '0'}&status={$status}{/if}{if $query neq ''}&query={$query}{/if}">Next &rarr;</a>
+
+                                        {/if}                                
+
+                                    </div>  
+
+                            </th></tr></tfoot>
+
+                            {/if}
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+			<!--Rightbar Chat-->
+			<aside class="rightbar">
+				<div class="rightbar-container">
+					<div class="right-chat-bar">
+						<div class="coversation-header">
+							<div class="chat-back" data-popup="tooltip" data-placement="left" title="Back">
+								<i class="icon-arrow-left12"></i>
+							</div>
+							<div class="active-conversation">
+								<div class="chat-avatar">
+									<img src="assets/images/faces/face12.png" alt="user">
+								</div>
+								<div class="chat-user-status">
+									<ul>
+										<li class="text-semibold"> John Parker</li>
+										<li><small>Online</small></li>
+									</ul>
+								</div>
+							</div>
+							<div class="conversation-actions">
+								<ul>
+									<li><i class="icon-phone-wave" data-popup="tooltip" data-placement="bottom" title="Call"></i></li>
+									<li><i class="icon-attachment" data-popup="tooltip" data-placement="bottom" title="Send file"></i></li>
+									<li><i class="icon-mic2" data-popup="tooltip" data-placement="bottom" title="Send voice"></i></li>
+									<li><i class="icon-user-block" data-popup="tooltip" data-placement="bottom" title="Block"></i></li>					
+								</ul>
+							</div>
+						</div>
+						<div class="conversation-container">
+							<div class="conversation-row even">
+								<ul class="conversation-list">
+									<li>
+										<p>
+											Lorem ipsum dolor sit amet?
+										</p>
+									</li>							
+								</ul>
+							</div>
+							<div class="conversation-row odd">
+								<ul class="conversation-list">
+									<li>
+										<p>
+											Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus
+										</p>
+									</li>
+								</ul>
+							</div>
+							<div class="conversation-row even">
+								<ul class="conversation-list">
+									<li>
+										<p>
+											Maecenas nec odio et ante tincidunt tempus. 
+										</p>
+									</li>
+								</ul>
+							</div>
+							<div class="conversation-row even">
+								<ul class="conversation-list">
+									<li>						
+										<a href="assets/images/demo/pic7.jpg" class="venobox"><img src="assets/images/demo/pic7.jpg" alt=""/></a>
+									</li>
+								</ul>
+							</div>
+							<div class="conversation-row odd">
+								<ul class="conversation-list">
+									<li>
+										<p>
+											Donec sodales :)
+										</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="chat-text-input">			
+							<div class="input-group">
+								<input type="text" class="form-control input-xs" placeholder="Type a message...">
+								<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><i class="icon-enter5"></i></button>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="chat-user-toolbar clearfix">
+						<div class="chat-user-search pull-left">
+							<span class="addon-icon"><i class="icon-search4"></i></span>
+							<input type="text" class="form-control" placeholder="Search">
+						</div>
+						<div class="add-chat-list pull-right">
+							<i class="icon-user-plus" data-toggle="tooltip" data-placement="left" title="Add new user"></i>
+						</div>
+					</div>
+					
+					<div class="chat-user-container">			
+						<ul class="chat-user-list">
+							<li>
+								<div><span class="chat-avatar"><img src="assets/images/faces/face1.png" alt="Avatar"></span><span class="chat-u-info">Jane Elliott<cite>Li Europan lingues es...</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li>
+								<div><span class="chat-avatar"><img src="assets/images/faces/face2.png" alt="Avatar"></span><span class="chat-u-info">Florence Douglas<cite>Busy</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-online">
+								<div><span class="chat-avatar"><img src="assets/images/faces/face3.png" alt="Avatar"></span><span class="chat-u-info">Jacqueline Howell<cite>Available</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-online">
+								<div><span class="chat-avatar"><img src="assets/images/faces/face4.png" alt="Avatar"></span><span class="chat-u-info">Eugine Turner<cite>Occidental in fact...</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-busy">
+								<div><span class="chat-avatar"><img src="assets/images/faces/face5.png" alt="Avatar"></span><span class="chat-u-info">Andrew Brewer<cite>Busy</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-away">
+								<div><span class="chat-avatar"><img src="assets/images/faces/face6.png" alt="Avatar"></span><span class="chat-u-info">Jonaly Smith<cite>Available</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-online">
+								<div><span class="chat-avatar"><img src="assets/images/faces/face7.png" alt="Avatar"></span><span class="chat-u-info">Ann Porter<cite>Available</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li class="chat-u-away">
+								<div><span class="chat-avatar"><img src="assets/images/faces/face8.png" alt="Avatar"></span><span class="chat-u-info">John Deo<cite>Do not disturb</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li>
+								<div><span class="chat-avatar"><img src="assets/images/faces/face9.png" alt="Avatar"></span><span class="chat-u-info">Marilyn Romero<cite>On refusa continuar payar...</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li>
+								<div><span class="chat-avatar"><img src="assets/images/faces/face10.png" alt="Avatar"></span><span class="chat-u-info">Carol Gibson<cite>Gone for a weekend</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+							<li>
+								<div><span class="chat-avatar"><img src="assets/images/faces/face11.png" alt="Avatar"></span><span class="chat-u-info">Scott Ruiz<cite>At solmen va esser...</cite></span>
+								</div>
+								<span class="chat-u-status"><i class="icon icon-circles"></i></span>
+							</li>
+						</ul>						
+					</div>		
+				</div>
+			</aside>
+			<!--/Rightbar Chat-->
+				
+		</div>
+	
+		<!--Footer -->
+		{include file="$include_tpl/includes/footer.html"}
+		<!--/Footer-->
+		
+	</section>
+	<!--/Page Container-->
+	
+	<!-- div class="theme-switcher">
+		<span class="theme-switcher-icon">
+			<i class="icon icon-color-sampler"></i>
+		</span>
+		
+		<div class="themes-container">
+			<ul class="switch-theme-colors clearfix">
+				<li class="list-title">Light</li>
+				<li>
+					<div class="theme" id="light">
+						<img src="{$tpl_dir}/assets/images/themes/light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li class="list-title clearfix">Mirage</li>
+				<li>
+					<div class="theme pull-left" id="mirage">
+						<img src="{$tpl_dir}/assets/images/themes/mirage_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="mirage_light">
+						<img src="{$tpl_dir}/assets/images/themes/mirage_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="mirage_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/mirage_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>										
+				<li class="list-title clearfix">Burnt Sienna</li>
+				<li>
+					<div class="theme pull-left" id="burnt_sienna_dark">
+						<img src="{$tpl_dir}/assets/images/themes/burnt_sienna_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="burnt_sienna_light">
+						<img src="{$tpl_dir}/assets/images/themes/burnt_sienna_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="burnt_sienna_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/burnt_sienna_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>		
+
+				<li class="list-title clearfix">Amethyst</li>
+				<li>
+					<div class="theme pull-left" id="amethyst_dark">
+						<img src="{$tpl_dir}/assets/images/themes/amethyst_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="amethyst_light">
+						<img src="{$tpl_dir}/assets/images/themes/amethyst_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="amethyst_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/amethyst_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>		
+
+				<li class="list-title clearfix">Fuchsia Blue</li>
+				<li>
+					<div class="theme pull-left" id="fuchsiablue_dark">
+						<img src="{$tpl_dir}/assets/images/themes/fuchsiablue_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="fuchsiablue_light">
+						<img src="{$tpl_dir}/assets/images/themes/fuchsiablue_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="fuchsiablue_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/fuchsiablue_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+
+				<li class="list-title clearfix">Picton Blue</li>
+				<li>
+					<div class="theme pull-left" id="pictonblue_dark">
+						<img src="{$tpl_dir}/assets/images/themes/pictonblue_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="pictonblue_light">
+						<img src="{$tpl_dir}/assets/images/themes/pictonblue_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="pictonblue_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/pictonblue_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+				
+				<li class="list-title clearfix">Jungle Green</li>
+				<li>
+					<div class="theme pull-left" id="junglegreen_dark">
+						<img src="{$tpl_dir}/assets/images/themes/junglegreen_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="junglegreen_light">
+						<img src="{$tpl_dir}/assets/images/themes/junglegreen_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="junglegreen_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/junglegreen_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+				
+				<li class="list-title clearfix">Fern</li>
+				<li>
+					<div class="theme pull-left" id="fern_dark">
+						<img src="{$tpl_dir}/assets/images/themes/fern_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="fern_light">
+						<img src="{$tpl_dir}/assets/images/themes/fern_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="fern_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/fern_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+				
+				<li class="list-title clearfix">Sunglow</li>
+				<li>
+					<div class="theme pull-left" id="sunglow_dark">
+						<img src="{$tpl_dir}/assets/images/themes/sunglow_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="sunglow_light">
+						<img src="{$tpl_dir}/assets/images/themes/sunglow_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="sunglow_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/sunglow_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+				
+				<li class="list-title clearfix">Regent Grey</li>
+				<li>
+					<div class="theme pull-left" id="regentgrey_dark">
+						<img src="{$tpl_dir}/assets/images/themes/regentgrey_dark.jpg" alt=""/>
+					</div>				
+				</li>			
+				<li>
+					<div class="theme pull-left" id="regentgrey_light">
+						<img src="{$tpl_dir}/assets/images/themes/regentgrey_light.jpg" alt=""/>
+					</div>				
+				</li>
+				<li>
+					<div class="theme pull-left" id="regentgrey_light_sidebar">
+						<img src="{$tpl_dir}/assets/images/themes/regentgrey_light_sidebar.jpg" alt=""/>
+					</div>				
+				</li>
+			</ul>	
+		</div>
+	</div>
+
+--><a id="scrollTop" href="index1.htm#top"><i class="icon-arrow-up12"></i></a>	
+
+<!-- Global scripts -->
+<script src="{$tpl_dir}/js/jquery.js"></script>	
+<script src="{$tpl_dir}/js/bootstrap.js"></script>
+<script src="{$tpl_dir}/js/jquery.ui.js"></script>
+<script src="{$tpl_dir}/assets/js/jquery-printme.js"></script>
+<script src="{$tpl_dir}/assets/js/clipboard.min.js"></script>
+<script src="{$tpl_dir}/js/nav.accordion.js"></script>	
+<script src="{$tpl_dir}/js/hammerjs.js"></script>
+<script src="{$tpl_dir}/js/jquery.hammer.js"></script>
+<script src="{$tpl_dir}/js/scrollup.js"></script>	
+<script src="{$tpl_dir}/js/jquery.slimscroll.js"></script>	
+<script src="{$tpl_dir}/js/smart-resize.js"></script>
+<script src="{$tpl_dir}/js/blockui.min.js"></script>		
+<script src="{$tpl_dir}/js/wow.min.js"></script>					
+<script src="{$tpl_dir}/js/fancybox.min.js"></script>
+<script src="{$tpl_dir}/js/venobox.js"></script>
+<script src="{$tpl_dir}/js/forms/uniform.min.js"></script>
+<script src="{$tpl_dir}/js/forms/switchery.js"></script>
+<script src="{$tpl_dir}/js/forms/select2.min.js"></script>	
+<script src="{$tpl_dir}/js/core.js"></script>
+<!-- /global scripts -->
+<script type="text/javascript" src="{$tpl_dir}/js/moment.min.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/legacy.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/daterangepicker.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/picker.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/picker.date.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/picker.time.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/spectrum.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/pages/pickers.js"></script>
+<!-- Page scripts -->
+    <script type="text/javascript">
+
+		function printalamat(id){
+			$('#'+id).printMe();
+		}
+        $(function () {
+
+            var delete_selected = "";
+
+//            $('.tanggal').datepick({ dateFormat: 'dd-mm-yyyy' });
+
+            
+
+            $( ".batal_pesan" ).click(function() {
+
+                var id = this.getAttribute('id_batal');
+
+                prosesBatalPesanan(id);                
+
+            });
+
+               
+
+            $( ".histori" ).click(function() {
+
+                var id = this.getAttribute('id_histori');
+
+                var text = $('#btn_histori_'+id).text();
+
+                if(text=='Sembunyikan Status') {
+
+                    $('#detail_histori_'+id).hide('slow');
+
+                    $('#btn_histori_'+id).html('Lihat Status');
+
+                } else                
+
+                if(text=='Lihat Status') {
+
+                    $('#detail_histori_'+id).show('slow');
+
+                    $('#btn_histori_'+id).html('Sembunyikan Status');
+
+                    
+
+                    $("body, html").animate({ 
+
+                        scrollTop: $('#detail_histori_'+id).offset().top 
+
+                    }, 600);
+
+                }
+
+            });
+
+            
+
+            $( ".detail" ).click(function() {
+
+                var id = this.getAttribute('id_detail');
+
+                var text = $('#btn_detail_'+id).text();
+
+                if(text=='Sembunyikan Detail') {
+
+                    $('#detail_detail_'+id).hide('slow');
+
+                    $('#btn_detail_'+id).html('Tampilkan Detail');
+
+                } else                
+
+                if(text=='Tampilkan Detail') {
+
+                    $('#detail_detail_'+id).show('slow');
+
+                    $('#btn_detail_'+id).html('Sembunyikan Detail');
+
+                    
+
+                    $("body, html").animate({ 
+
+                        scrollTop: $('#btn_detail_'+id).offset().top 
+
+                    }, 600);
+
+                }
+
+            });
+
+            
+
+            $( ".cetak" ).click(function() {
+
+                var notrx = this.getAttribute('notrx');
+
+                var url = 'cetak.php?notrx='+notrx;
+
+                window.open(url, '_blank');
+
+            });
+
+            
+
+            $( ".noresi" ).click(function() {
+
+                var id = this.getAttribute('id_noresi');
+
+                var is_open = this.getAttribute('is_open');
+
+                
+
+                if(is_open=='false') {
+
+                    $('#edit_no_resi_'+id).show('slow');
+
+                    $('#btn_noresi_'+id).attr('is_open', 'true');                    
+
+                } else                
+
+                if(is_open=='true') {
+
+                    $('#edit_no_resi_'+id).hide('slow');
+
+                    $('#btn_noresi_'+id).attr('is_open', 'false');
+
+                    
+
+                    $("body, html").animate({ 
+
+                        scrollTop: $('#btn_noresi_'+id).offset().top 
+
+                    }, 600);
+
+                }
+
+            });
+
+            
+
+            /*$( ".finish" ).click(function() {
+
+                var id = this.getAttribute('id_finish');
+
+                var is_open = this.getAttribute('is_open');
+
+                $('[name=nama_penerima_'+id+']').val('');        
+
+                if(is_open=='false') {
+
+                    $('#edit_finish_'+id).show('slow');
+
+                    $('#btn_finish_'+id).attr('is_open', 'true');                    
+
+                } else                
+
+                if(is_open=='true') {
+
+                    $('#edit_finish_'+id).hide('slow');
+
+                    $('#btn_finish_'+id).attr('is_open', 'false');
+
+                    
+
+                    $("body, html").animate({ 
+
+                        scrollTop: $('#btn_finish_'+id).offset().top 
+
+                    }, 600);
+
+                }
+
+            });*/
+
+            
+
+            $( ".edit_pesanan" ).click(function() {
+
+                var id = this.getAttribute('id_edit');
+
+                window.location = '{$adminweburl}/pemesanan/edit.php?id='+id;
+
+                
+
+            });
+
+            
+
+            $( ".simpan_noresi" ).click(function() {
+
+                var id = this.getAttribute('id_noresi');
+
+                $('#i_loading_noresi_'+id).show();
+
+                $('#btn_simpan_noresi_'+id).hide();
+
+                                                                                
+
+                $.ajax({
+
+                    url: '{$adminweburl}/pemesanan/updateResi.php',
+
+                    type: 'POST',
+
+                    dataType: 'json',
+
+                    data: { id: id, no_resi: $('[name=no_resi_'+id+']').val(), status: $('[name=status_pesanan_'+id+']').val()},
+
+                    success: function(data, textStatus, jqXHR) {
+
+                        $('#i_loading_noresi_'+id).hide();
+
+                        $('#btn_simpan_noresi_'+id).show();
+
+                        if(data['success']) {                
+
+                            $('#text_no_resi_'+id).text($('[name=no_resi_'+id+']').val());
+
+                            
+
+                            var status_pesanan = $('[name=status_pesanan_'+id+']').val();
+
+                            $('#text_status_'+id).text((status_pesanan==2 || status_pesanan==7)?"Pesanan Dalam Proses.":(status_pesanan==5?'Pesanan sudah diterima.':((status_pesanan==6 || status_pesanan==8)?'Pesanan sudah dikirim.':'')));
+
+                            $('#text_status_'+id).attr('style', 'color: green; font-weight: bold;');
+
+                            
+
+                            
+
+                            $('#text_pembayaran_'+id).text((status_pesanan==2 || status_pesanan==6 || status_pesanan==5)?"LUNAS":'BELUM LUNAS');
+
+                            $('#text_pembayaran_'+id).attr('style', 'color: '+((status_pesanan==2 || status_pesanan==6 || status_pesanan==5)?"green":'red')+'; font-weight: bold;');
+
+                            
+
+                            $('#edit_no_resi_'+id).hide('slow');
+
+                            $('#btn_noresi_'+id).attr('is_open', 'false');
+
+                            
+
+                        } else {                            
+
+                            setRowMessage('error', data['message'], id);
+
+                        }
+
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+
+                        $('#i_loading_noresi_'+id).hide();
+
+                        $('#btn_simpan_noresi_'+id).show();
+
+                        setRowMessage('error', 'Edit no. resi gagal.', id);
+
+                    }
+
+                });
+
+            });
+
+            
+
+            $( ".simpan_finish" ).click(function() {
+
+                var id = this.getAttribute('id_finish');
+
+                $('#i_loading_finish_'+id).show();
+
+                $('#btn_simpan_finish_'+id).hide();
+
+                                                                                
+
+                $.ajax({
+
+                    url: '{$adminweburl}/pemesanan/updateTutup.php',
+
+                    type: 'POST',
+
+                    dataType: 'json',
+
+                    data: { id: id, nama_penerima: $('[name=nama_penerima_'+id+']').val()},
+
+                    success: function(data, textStatus, jqXHR) {
+
+                        $('#i_loading_finish_'+id).hide();
+
+                        $('#btn_simpan_finish_'+id).show();
+
+                        if(data['success']) {                
+
+                            $('[name=nama_penerima_'+id+']').val('');
+
+                            $('#edit_nama_penerima_'+id).hide('slow');
+
+                            $('#btn_finish_'+id).attr('is_open', 'false'); 
+
+                        } else {                            
+
+                            setRowMessage('error', data['message'], id);
+
+                        }
+
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+
+                        $('#i_loading_finish_'+id).hide();
+
+                        $('#btn_simpan_finish_'+id).show();
+
+                        setRowMessage('error', 'Edit no. resi gagal.', id);
+
+                    }
+
+                });
+
+            });
+
+            
+
+            $( "#btn_cari" ).click(function() {
+
+                var tanggal_dari = $( '[name=tanggal_dari]' ).val();
+
+                var tanggal_sampai = $( '[name=tanggal_sampai]' ).val();
+
+                var jenis = $( '[name=jenis]' ).val();
+
+                var status = $( '[name=status]' ).val();
+
+                var query = $( "#query" ).val();
+
+                
+
+                window.location='list.php?_'+
+
+                    (tanggal_dari.length>0?'&tanggal_dari='+tanggal_dari:'')+
+
+                    (tanggal_sampai.length>0?'&tanggal_sampai='+tanggal_sampai:'')+
+
+                    (jenis!='0'?'&jenis='+jenis:'')+
+
+                    (status!='0'?'&status='+status:'')+
+
+                    (query.length>0?'&query='+query:'');
+
+            });
+
+
+
+            function setMessage(type, message) {
+
+                $('#alert_'+type+' .alert').text(message);
+
+                $('#alert_'+type).show('slow');
+
+                setTimeout(function() {
+
+                    $('#alert_'+type).hide('slow');
+
+                }, 5000);
+
+                $("body, html").animate({ 
+
+                    scrollTop: $('#wrapper').offset().top
+
+                }, 600);
+
+            }
+
+
+
+            function setRowMessage(type, message, id) {
+
+                $('#alert_'+type+'_'+id+' .alert').text(message);
+
+                $('#alert_'+type+'_'+id).show('slow');
+
+                setTimeout(function() {
+
+                    $('#alert_'+type+'_'+id).hide('slow');
+
+                }, 5000);
+
+                $("body, html").animate({ 
+
+                    scrollTop: $('#message_wrapper_'+id).offset().top-100
+
+                }, 600);
+
+            }
+
+            
+            function prosesBatalPesanan(id) {
+
+                $('<div></div>').appendTo('body')
+
+                .html('<div>Yakin ingin membatalkan pesanan yang dipilih?</div>')
+
+                .dialog({
+
+                    modal: true,
+
+                    title: 'Konfirmasi Pembatalan',
+
+                    zIndex: 10000,
+
+                    autoOpen: true,
+
+                    width: 'auto',
+
+                    resizable: false,
+
+                    buttons: {
+
+                        Yes: function () {
+
+                            $('#i_loading_batal_'+id).show();
+
+                            $('#btn_batal_'+id).hide();
+
+                            $.ajax({
+
+                                url: 'cancelOrder.php',
+
+                                type: 'POST',
+
+                                dataType: 'json',
+
+                                data: { id: id },
+
+                                success: function(data, textStatus, jqXHR) {
+
+                                    if(data['success']) {
+
+                                        setRowMessage('success', data['message'], id);
+
+                                        $('#btn_batal_'+id).hide();
+
+                                        $('#i_loading_batal_'+id).hide();
+
+                                        var status_pesanan = $('[name=status_pesanan_'+id+']').val();
+
+                                        $('#text_status_'+id).text("Pemesanan dibatalakan oleh Admin.");
+
+                                        $('#text_status_'+id).attr('style', 'color: red; font-weight: bold;');
+
+
+
+                                    } else {
+
+                                        setRowMessage('error', data['message'], id);
+
+                                    }
+
+                                },
+
+                                error: function(jqXHR, textStatus, errorThrown) {
+
+                                    setRowMessage('error', 'Terjadi kesalahan system.', id);
+
+                                }
+
+                            });                                
+
+                            $(this).dialog("close");
+
+                        },
+
+                        No: function () {
+
+                            //doFunctionForNo();
+
+                            $(this).dialog("close");
+
+                        }
+
+                    },
+
+                    close: function (event, ui) {
+
+                        $(this).remove();
+
+                    }
+
+                });                
+
+            }
+
+            
+
+            {if $alert_success neq ""}setMessage('success', '{$alert_success}');{/if}        
+
+            {if $alert_error neq ""}setMessage('error', '{$alert_error}');{/if} 
+
+        });
+
+    </script>
+    <script>
+    var clipboard = new Clipboard('.btn');
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    </script>
+<!-- /page scripts -->
+</body>
+</html>

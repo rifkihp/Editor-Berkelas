@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Editor Berkelas Preset</title>
+	
+	<!-- Global stylesheets -->	
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/assets/fonts/fonts.css">
+        <link type="text/css" rel="stylesheet" href="{$tpl_dir}/assets/icons/icomoon/icomoon.css">
+        <link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/animate.min.css">
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/bootstrap.css">   
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/core.css">	
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/layout.css">	
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/bootstrap-extended.css">	    
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/components.css">
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/plugins.css">
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/loaders.css">
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/responsive.css">
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/color-system.css">		
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/fancybox/jquery.fancybox.css">
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/assets/sweetalert2/sweetalert2.min.css">
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/assets/bootstrap-fileinput/css/fileinput.min.css">
+	<link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/burnt_sienna_light.css">	
+        <link type="text/css" rel="stylesheet" href="{$tpl_dir}/css/AdminLTE.css" />
+	<link type="text/css" rel="stylesheet" href="{$smarty.session.tpl-theme}" id="theme">
+	<script src="{$tpl_dir}/assets/sweetalert2/sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script>
+		var base_tpl_url = "{$tpl_dir}/css/themes/";
+		var base_url = "{$homeurl}/";
+	</script>
+	<style>
+		.main-nav .navbar-left {
+			background-color: rgb(255, 255, 255) !important;
+			height: 50px;
+			padding: 0 15px;
+			width: 250px !important;
+		}		
+	</style>
+	<!-- /global stylesheets -->
+</head>
+<body class="material-menu" id="top">
+	<div id="preloader">
+		<div id="status">
+			<div class="loader">
+				<div class="loader-inner ball-pulse">
+				  <div class="bg-blue"></div>
+				  <div class="bg-amber"></div>
+				  <div class="bg-success"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<header class="main-nav clearfix">	
+		<div class="top-search-bar">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<div class="search-input-addon">
+							<span class="addon-icon"><i class="icon-search4"></i></span>
+							<input type="text" class="form-control top-search-input" placeholder="Search">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="navbar-left pull-left">
+			<div class="clearfix">
+				<ul class="left-branding pull-left">
+					<li><span class="left-toggle-switch"><i class="icon-menu7"></i></span></li>
+				</ul>				
+			</div>
+		</div>
+		
+		<div class="navbar-right pull-right">
+			<div class="clearfix">				
+				<ul class="pull-right top-right-icons">
+					<li class="dropdown user-dropdown">
+						<a href="{$adminweburl}#" class="btn-user dropdown-toggle hidden-xs" data-toggle="dropdown"><img src="{$homeurl}/uploads/umum/default_logo.png" class="img-circle user" alt=""/></a>
+						<a href="{$adminweburl}#" class="dropdown-toggle visible-xs" data-toggle="dropdown"><i class="icon-more"></i></a>
+						<div class="dropdown-menu">	
+							<div class="text-center"><img src="{$homeurl}/uploads/umum/default_logo.png" class="img-circle img-70" alt=""/></div>
+							<h5 class="text-center"><b>Hi! {$data_user.nama}</b></h5>
+							<ul class="more-apps">
+								<!-- li><a href="{$tpl_dir}/material/user_profile_social.html"><i class="icon-profile"></i> My profile</a></li -->
+								<!-- li><a href="{$adminweburl}#"><i class="icon-envelop5"></i> Inbox <span class="badge badge-danger pull-right">4</span></a></li -->
+								<li><a href="{$adminweburl}/editprofile/"><i class="icon-profile"></i> My Profile</a></li>
+								<li><a href="{$adminweburl}/gantipassword/"><i class="icon-lock5"></i> Ganti Password</a></li>
+							</ul>
+							<div class="text-center"><a href="{$adminweburl}/logout.php" class="btn btn-sm btn-info"><i class="icon-exit3 i-16 position-left"></i> Logout</a></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</header>

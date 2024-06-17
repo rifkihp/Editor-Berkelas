@@ -1,0 +1,321 @@
+{include file="$include_tpl/includes/head.html"}
+<!--sidebar-->
+{include file="$include_tpl/includes/sidebar.html"}
+<!--/sidebar-->
+<!--Page Container-->
+<section class="main-container">	
+    <!--Page Header-->
+    <div class="header">
+        <div class="header-content">
+            <div class="page-title">
+                <i class="icon-table position-left"></i> {$title}
+            </div>
+            <ul class="breadcrumb">
+                <li><a href="{$adminweburl}">Beranda</a></li>
+                <li><a href="{$adminweburl}/konfirmasideposit/">{$title}</a></li>
+                <li class="active">{$sub_title}</li>
+            </ul>					
+        </div>
+    </div>		
+    <!--/Page Header-->
+			
+    <!--Page Content-->
+    <div id="wrapper" class="container-fluid page-content">				
+        <div class="panel panel-flat" style="margin: 5px;">
+            
+            <div class="form-group panel-body no-padding-bottom">
+                <table style="width: 100%;">
+                    <tr>
+                        <td width="20%" style="padding: 8px;"><label>Dari Tanggal:</label></td>
+                        <td width="80%">
+                            <table width="100%">
+                                <tr>
+                                    <td width="40%">
+                                        <input type="text" value="{$tanggal_dari}" class="form-control pickadate" name="tanggal_dari" placeholder="Klik Untuk Memilih Tanggal" />
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <label>Sampai Tanggal:</label>
+                                    </td>
+                                    <td width="40%">
+                                        <input type="text" value="{$tanggal_sampai}" class="form-control pickadate" name="tanggal_sampai" placeholder="Klik Untuk Memilih Tanggal" />                 
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="padding: 8px;"><label>Status Pembayaran:</label></td>
+                        <td width="80%">
+                            <select id="filter_status" class="form-control" name="status">
+                                <option value="3" {if $filter_status eq 3}selected="selected"{/if}>Semua Status</option>
+                                <option value="0" {if $filter_status eq 0}selected="selected"{/if}>Status Menunggu</option>              
+                                <option value="1" {if $filter_status eq 1}selected="selected"{/if}>Status Tidak Valid</option>              
+                                <option value="2" {if $filter_status eq 2}selected="selected"{/if}>Status Valid</option> 
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" style="padding: 8px;"><label>Keyword Pencarian:</label></td>
+                        <td width="80%">
+                            <table>
+                                <tr>
+                                    <td width="100%"><input type="text" value="{$query}" class="form-control" name="query" id="query" placeholder="Masukan kata kunci pencarian..." /></td>
+                                    <td width="5px">&nbsp;</td> 
+                                    <td><div id="btn_cari" type="submit" class="btn btn-primary">Cari</div></td>
+                                    <td width="5px">&nbsp;</td> 
+                                    <td><a class="btn btn-default" href="list.php">Reset</a></td>  
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        					
+            <div class="table-responsive">
+                <table class="table datatable table-striped">
+                    <thead>
+                        <tr>
+                            <th width="10%"><div style="text-align: center;">No.</div></th>
+                            <th width="90%"><div style="text-align: left;">Data Transfer</div></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {assign var="no" value=1}
+                        {foreach $listdetail as $entry}                                    
+                            <tr id="baris_{$entry.id}">
+                                <td  style='vertical-align: top;' align="center">{$limitpage*($currentpage-1)+$no}</td>
+                                <td>
+                                    <table width="100%">
+                                        <tr><td>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <table width="100%">
+                                                        <tr><td width="30%"><b>Pengguna</b> </td><td><b>:</b> {if $entry.email eq 'Guest'}Guest{else}{$entry.first_name} {$entry.last_name}{/if}</td></tr>
+                                                        <tr><td><b>Tanggal</b>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><b>:</b> {$entry.tgl_jam}</td></tr>
+                                                        <tr><td><b>Deposit Untuk</b> </td><td><b>:</b> {$entry.judul}</td></tr>
+                                                        <tr><td><b>Transfer</b>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><b>:</b> {$entry.jumlah_transfer}</td></tr>                                                                    
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <table width="100%">
+                                                        <tr><td width="30%"><b>Tujuan</b></td><td><b>:</b> {$entry.bank_tujuan}</td></tr>
+                                                        <tr><td><b>Penerima</b></td><td><b>:</b> {$entry.nama_penerima}</td></tr>
+                                                        <tr><td><b>Melalui</b> </td><td><b>:</b> {$entry.bank_pengirim}</td></tr>
+                                                        <tr><td><b>Pengirim</b> </td><td><b>:</b> {$entry.nama_pengirim}</td></tr>
+
+                                                        <tr><td><b>Status</b> </td><td><b>:</b> {if 'E'|in_array:$array_akses}
+                                                                <label id="status_valid_{$entry.id}" style="margin-top: 5px;"><input type="radio" name="status_{$entry.id}" id_trf="{$entry.id}" value="2" {if $entry.status eq 2}checked{/if} />&nbsp;&nbsp;<span class="label bg-green" style="font-size: 9pt;">VALID</span>&nbsp;&nbsp;</label>
+                                                                <label id="status_tidak_valid_{$entry.id}" style="margin-top: 5px;"><input type="radio" name="status_{$entry.id}" id_trf="{$entry.id}" value="1" {if $entry.status eq 1}checked{/if} />&nbsp;&nbsp;<span class="label bg-red" style="font-size: 9pt;">TIDAK VALID</span>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                                <img id="i_loading_{$entry.id}" src="{$tpl_dir}/assets/img/loading.gif" style="display: none;" />
+                                                            {else}
+                                                                <span id='text_status_{$entry.id}' style="font-weight: bold; color: {if $entry.status eq 1}red{else if $entry.status eq 2}green{else}orange{/if};">{if $entry.status eq 1}Tidak Valid{else if $entry.status eq 2}Valid{else}Menunggu{/if}</span></td></tr>
+                                                            {/if}
+                                                        <tr><td colspan="2">
+                                                            {if 'E'|in_array:$array_akses}
+                                                                <div id="alert_error_{$entry.id}" class="form-group" style="display: none;">
+                                                                    <div class="alert alert-danger">&nbsp;</div>
+                                                                </div>
+                                                                <div id="alert_success_{$entry.id}" class="form-group" style="display: none;">                         
+                                                                    <div class="alert alert-info">&nbsp;</div>
+                                                                </div>
+                                                            {/if}                                                        
+                                                        </div></td></tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div align="right">
+                                                        <table>
+                                                            <tr><td>
+                                                                    <b>Bukti Pembayaran:</b>
+                                                                <div class="zoom"><img src="{$homeurl}/uploads/konfirmasi/{if $entry.photo neq ''}{$entry.photo}{else}default.jpg{/if}" height="250" width="250" /> </div>    
+                                                            </td></tr>        
+                                                        </table>
+                                                    </div>
+                                                </div>                                                            
+                                        </td></tr>   
+                                    </table>    
+                                </td>                                           
+                            </tr>
+                            {assign var="no" value=$no+1}  
+                        {/foreach}
+                    </tbody>
+
+                    {if $totalpage gt 1}
+                        <tfoot>
+                            <tr>
+                                <th colspan="2">
+                                    <div style="text-align: center;">
+                                        {if $currentpage gt 1}                                
+                                            <a class="btn btn-default" href="list.php?page={$currentpage-1}{if $query neq ''}&query={$query}{/if}">&larr; Prev</a>
+                                        {/if}
+                                        {assign var="item" value=$frompage}
+                                        {for $foo=$frompage to $untilpage}
+                                            {if $item eq $currentpage}
+                                                <span class="btn btn-info">{$item}</span>                                
+                                            {else}
+                                                <a class="btn btn-default" href="list.php?page={$item}{if $query neq ''}&query={$query}{/if}">{$item}</a>
+                                            {/if}
+                                            {assign var="item" value=$item+1}                                
+                                        {/for}
+                                        {if $totalpage gt $currentpage}                                
+                                            <a class="btn btn-default" href="list.php?page={$currentpage+1}{if $query neq ''}&query={$query}{/if}">Next &rarr;</a>
+                                        {/if}                                
+                                    </div>  
+                                </th>
+                            </tr>
+                        </tfoot>
+                    {/if}
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--/Page Content-->
+
+    <!--Footer -->
+    {include file="$include_tpl/includes/footer.html"}
+    <!--/Footer-->
+
+</section>
+<!--/Page Container-->
+
+<!-- Global scripts -->
+<script src="{$tpl_dir}/js/jquery.js"></script>	
+<script src="{$tpl_dir}/js/bootstrap.js"></script>
+<script src="{$tpl_dir}/js/jquery.ui.js"></script>
+<script src="{$tpl_dir}/js/nav.accordion.js"></script>	
+<script src="{$tpl_dir}/js/hammerjs.js"></script>
+<script src="{$tpl_dir}/js/jquery.hammer.js"></script>
+<script src="{$tpl_dir}/js/scrollup.js"></script>	
+<script src="{$tpl_dir}/js/jquery.slimscroll.js"></script>	
+<script src="{$tpl_dir}/js/smart-resize.js"></script>
+<script src="{$tpl_dir}/js/blockui.min.js"></script>		
+<script src="{$tpl_dir}/js/wow.min.js"></script>					
+<script src="{$tpl_dir}/js/fancybox.min.js"></script>
+<script src="{$tpl_dir}/js/venobox.js"></script>
+<script src="{$tpl_dir}/js/forms/uniform.min.js"></script>
+<script src="{$tpl_dir}/js/forms/switchery.js"></script>
+<script src="{$tpl_dir}/js/forms/select2.min.js"></script>	
+<script src="{$tpl_dir}/js/core.js"></script>
+
+<script type="text/javascript" src="{$tpl_dir}/js/moment.min.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/legacy.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/daterangepicker.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/picker.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/picker.date.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/picker.time.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/forms/spectrum.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/pages/pickers.js"></script>
+<script type="text/javascript" src="{$tpl_dir}/js/jzoom.js"></script>
+<!-- iCheck -->
+<link rel="stylesheet" href="{$tpl_dir}/js/iCheck/square/blue.css">
+<script src="{$tpl_dir}/js/iCheck/icheck.min.js"></script>  
+    <script type="text/javascript">
+
+        $(function () {
+            $('.zoom').jzoom({
+                position: "left"
+            });
+        
+            $('input').iCheck({
+              checkboxClass: 'icheckbox_square-blue',
+              radioClass: 'iradio_square-blue',
+              increaseArea: '20%' // optional
+            });
+            
+            var setMessage = function(message, tipe, id) {
+                $('#alert_'+tipe+'_'+id+' .alert').text(message);
+                $('#alert_'+tipe+'_'+id).show('slow');
+                setTimeout(function() {
+                    $('#alert_'+tipe+'_'+id).hide('slow');
+                }, 5000);
+                $("body, html").animate({ 
+                    //scrollTop: $('#baris_'+i).offset().top-100 
+                }, 600);
+            }
+
+            var setLoading = function(isLoading, id) {
+                if(isLoading) {
+                    $('#i_loading_'+id).show();
+                    $("#status_valid_"+id).hide();
+                    $("#status_tidak_valid_"+id).hide();
+                } else {
+                    $('#i_loading_'+id).hide();
+                    $("#status_valid_"+id).show();
+                    $("#status_tidak_valid_"+id).show();
+                }
+            }
+            
+            var update_status = function(id, value) {
+                setLoading(true, id);
+                var data = new FormData();
+                data.append('id', id);  
+                data.append('status', value);
+                $.ajax({
+                    type: 'POST',
+                    url: 'update.php',
+                    data: data,
+                    cache: false,
+                    dataType: 'json',
+                    processData: false, // Don't process the files
+                    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                    success: function(data) {
+                        setLoading(false, id);
+                        if(!data['success']) {
+                            $("input[name=status_"+id+"][value="+value+"]").iCheck('uncheck');
+                            $("input[name=status_"+id+"][value="+(value==1?2:1)+"]").iCheck('check'); 
+                            setMessage(data['message'], 'error', id);
+                        } else {
+                            status[id] = value;
+                        }
+                    }, 
+                    error: function() {
+                        setLoading(false, id);
+                        $("input[name=status_"+id+"][value="+value+"]").iCheck('uncheck');
+                        $("input[name=status_"+id+"][value="+(value==1?2:1)+"]").iCheck('check'); 
+                        setMessage('Kesalahan server. Mohon diulang kembali!', 'error', id);
+                        
+                    }
+                }); 
+            }
+            
+            var status = [];
+            {foreach $listdetail as $entry}
+                status[{$entry.id}] = {$entry.status};
+            {/foreach}
+    
+            $("input[type='radio']").on('ifChanged', function (e) {
+                var id = this.getAttribute('id_trf');
+                var value = this.getAttribute('value');
+                var select = $("input[name=status_"+id+"][value="+value+"]").prop("checked");
+                if(select) {
+                    console.log(id+' --> '+value+' --> '+select);
+                    if(status[id]!=value) {
+                        //alert('update status!');
+                        update_status(id, value);
+                    }
+                }
+            });
+
+            $('#filter_status').on('change', function (e) {
+                var filter = $('#filter_status').val();
+                window.location='list.php?_'+(filter.length>0?'&status='+filter:'');
+            });
+
+            $( "#btn_cari" ).click(function() {
+                var tanggal_dari = $( '[name=tanggal_dari]' ).val();
+                var tanggal_sampai = $( '[name=tanggal_sampai]' ).val();
+                var query = $( "#query" ).val();
+                var filter = $('#filter_status').val();
+                window.location='list.php?_'+
+                    (tanggal_dari.length>0?'&tanggal_dari='+tanggal_dari:'')+
+                    (tanggal_sampai.length>0?'&tanggal_sampai='+tanggal_sampai:'')+
+                    (filter.length>0?'&status='+filter:'')+(query.length>0?'&query='+query:'');
+            });
+            
+        });
+    </script>
+
+<!-- /page scripts -->
+</body>{include file="$include_tpl/includes/footer_js.html"}
+</html>

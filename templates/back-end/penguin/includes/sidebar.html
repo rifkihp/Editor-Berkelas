@@ -1,0 +1,53 @@
+	<aside class="sidebar">
+            <div class="left-aside-container">
+                <div class="user-profile-container">
+                    <div class="user-profile clearfix">
+                        <div class="admin-user-thumb">
+                            <img src="{$homeurl}/uploads/umum/default_logo.png" alt="admin" class="img-circle">
+                        </div>
+                        <div class="admin-user-info">
+                            <ul class="user-info">
+                                <li><a href="{$adminweburl}/logout.php" class="text-semibold text-size-large">{$data_user.nama}</a></li>
+                                <li><a href="{$adminweburl}/logout.php"><small>Content Management</small></a></li>
+                            </ul>
+                            <div class="logout-icon"><a href="{$adminweburl}/logout.php"><i class="icon-exit2"></i></a></div>
+                        </div>
+                    </div>				
+                </div>
+                
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active fadeIn" id="menu">
+                        <ul class="sidebar-accordion">
+                            <li><br />&nbsp;&nbsp;&nbsp;</li>
+                            {foreach $listmenu as $entry}
+
+                                <li{if $page_selected eq $entry.page_name} class="active acc-parent-li"{/if}>
+
+                                    <a {if $entry.is_menu neq 'Y'}class="acc-parent active"{/if} href="{if $entry.is_menu eq 'Y'}{$adminweburl}/{$entry.url}{else}#{/if}"><i class="icon-{$entry.icon}"></i> {$entry.nama} {if $entry.submenu|@count gt 0}<span class="fa arrow"></span>{/if}</a>
+
+                                    {if $entry.submenu|@count gt 0}
+
+                                        <ul>
+
+                                        {foreach $entry.submenu as $submenu}
+
+                                            <li>
+
+                                                <a href="{$adminweburl}/{$submenu.url}"><i class="fa fa-{$submenu.icon}"></i> {$submenu.nama}</a>
+
+                                            </li>
+
+                                        {/foreach}
+
+                                        </ul>
+
+                                    {/if}
+
+                                </li>
+
+                            {/foreach}						
+                        </ul>
+                    </div>
+                </div>          
+            </div>
+	</aside>

@@ -1,0 +1,225 @@
+{include file="$include_tpl/includes/head.html"}
+	
+<!--sidebar-->
+{include file="$include_tpl/includes/sidebar.html"}
+<!--/sidebar-->
+
+<!--Page Container-->
+<section class="main-container">	
+    
+    <!--Page Header-->
+    <div class="header">
+        <div class="header-content">
+            <div class="page-title">
+                <i class="icon-table position-left"></i> {$title}
+            </div>
+            <ul class="breadcrumb">
+                <li><a href="{$adminweburl}">Beranda</a></li>
+                <li><a href="{$adminweburl}/banner/">{$title}</a></li>
+                <li class="active">{$sub_title}</li>
+            </ul>					
+        </div>
+    </div>		
+    <!--/Page Header-->
+			
+    <div class="container-fluid page-content">				
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-flat">
+                    
+                    <div class="form-group panel-body no-padding-bottom">
+                        <div id="alert_error" class="form-group" style="display: none;">
+                            <div class="alert alert-danger">&nbsp;</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nama">Nama Banner:</label>
+                            <input type="text" value="{if $isEdit eq true}{$data[0].nama}{/if}" class="form-control" name="nama" placeholder="" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="banner">Banner:</label>                        
+                            <style type="text/css">
+                                #div-banner .cropit-image-preview {
+                                    margin-bottom: 5px;
+                                    background-color: #a6bac4;
+                                    width: 1000px;
+                                    height: 500px;
+                                    cursor: move;
+                                }
+
+                                #div-banner .H-new-kol-post-img {
+                                    margin-bottom: 5px;
+                                    width: 1000px;
+                                    height: 500px;                                
+                                }
+                            </style>
+
+                            <div id="div-banner" class="H-new-kol-post-img image-editor-banner">
+                                <input id="fileupload_banner" type="file" name="fileupload_banner" style="display:none;" class="cropit-image-input" />
+                                <div class="cropit-image-preview"></div>
+                            </div>
+
+                            <div id="upload_banner" class="btn btn-primary">Upload</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status:</label>
+                            <select class="form-control" name="status">
+                                <option value="Y" {if $isEdit eq true && $data[0].status eq "Y"} selected="selected" {/if}>Aktif</option>
+                                <option value="N" {if $isEdit eq true && $data[0].status eq "N"} selected="selected" {/if}>Tidak Aktif</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td width="100%">&nbsp;</td> 
+                                        <td nowrap>
+                                            <div id="i_loading" class="G-btn-animation" style="display: none;"><img src="{$tpl_dir}/assets/img/loading.gif" /></div>                  
+                                            <div id="btn_simpan" type="submit" class="btn btn-primary">Simpan</div>
+                                            <a id="btn_batal"  href="list.php" class="btn btn-warning">Batal</a>                                                        
+                                        </td>
+                                    </tr>
+                                </tbody>                                
+                            </table>
+                        </div>
+                    </div>				
+                    
+		</div>				
+            </div>
+        </div>
+    </div>
+	
+    <!--Footer -->
+    {include file="$include_tpl/includes/footer.html"}
+    <!--/Footer-->			
+				
+</section>
+<!--/Page Container-->
+		
+<a id="scrollTop" href="index1.htm#top"><i class="icon-arrow-up12"></i></a>	
+
+<!-- Global scripts -->
+<script src="{$tpl_dir}/js/jquery.js"></script>	
+<script src="{$tpl_dir}/js/bootstrap.js"></script>
+<script src="{$tpl_dir}/js/jquery.ui.js"></script>
+<script src="{$tpl_dir}/js/nav.accordion.js"></script>	
+<script src="{$tpl_dir}/js/hammerjs.js"></script>
+<script src="{$tpl_dir}/js/jquery.hammer.js"></script>
+<script src="{$tpl_dir}/js/scrollup.js"></script>	
+<script src="{$tpl_dir}/js/jquery.slimscroll.js"></script>	
+<script src="{$tpl_dir}/js/smart-resize.js"></script>
+<script src="{$tpl_dir}/js/blockui.min.js"></script>		
+<script src="{$tpl_dir}/js/wow.min.js"></script>					
+<script src="{$tpl_dir}/js/fancybox.min.js"></script>
+<script src="{$tpl_dir}/js/venobox.js"></script>
+<script src="{$tpl_dir}/js/forms/uniform.min.js"></script>
+<script src="{$tpl_dir}/js/forms/switchery.js"></script>
+<script src="{$tpl_dir}/js/forms/select2.min.js"></script>	
+<script src="{$tpl_dir}/js/core.js"></script>
+<!-- /global scripts -->
+
+<!-- Page scripts -->
+<script src="{$tpl_dir}/assets/js/jquery.cropit.js"></script>
+
+<!-- /page scripts -->
+<script type="text/javascript">
+    $(function () {           
+        var isEdit = {if $isEdit eq true}true{else}false{/if};
+        $('.image-editor-banner').cropit({
+          smallImage: 'stretch'{if $data[0].filename neq ''},
+          imageState: {
+            src: '{$homeurl}/uploads/banner/{$data[0].filename}',
+          }{/if}
+        });
+
+        function setErrorMessage(message) {
+            $('#alert_error .alert').text(message);
+            $('#alert_error').show('slow');
+
+            setTimeout(function() {
+                $('#alert_error').hide('slow');
+            }, 5000);
+
+            $("body, html").animate({ 
+                scrollTop: $('#wrapper').offset().top 
+            }, 600);
+        }
+        
+        $('#btn_simpan').click(function() {
+            var data = new FormData();
+            data.append('id', isEdit?'{$data[0].id}':'');
+            data.append('nama', $('[name=nama]').val());
+            var imageDataBanner = $('.image-editor-banner').cropit('export');
+            data.append('filename_banner', imageDataBanner==undefined?'':imageDataBanner);
+            data.append('is_aktif', $('[name=status]').val());
+            
+            setLoading(true);
+            $.ajax({
+                type: 'POST',
+                url: isEdit?'update.php':'save.php',
+                data: data,
+                cache: false,
+                dataType: 'json',
+                processData: false, // Don't process the files
+                contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                success: function(data) {
+                    if(data['success']) {
+                        window.location = 'list.php';                    
+                    } else {
+                        setLoading(false);
+                        setErrorMessage(data['message']);                        
+                    }
+                },
+
+                error: function() {
+                    setLoading(false);
+                    setErrorMessage('Kesalahan server. Mohon diulang kembali!');
+                }
+            }); 
+        });
+        
+        function setLoading(isLoading) {
+            if(isLoading) {
+                $('#i_loading').show();
+                $('#btn_simpan').hide();
+                $('#btn_batal').hide();
+            } else {
+                $('#i_loading').hide();
+                $('#btn_simpan').show(); 
+                $('#btn_batal').show();                    
+            }
+        }
+
+        $('#upload_gambar').click(function(){
+            $('#fileupload_gambar').trigger('click'); 
+            return false;
+        });
+
+        $('#upload_banner').click(function(){
+            $('#fileupload_banner').trigger('click'); 
+            return false;
+        });
+
+        $('.hapus_gambar').click(function(e) {
+            e.preventDefault();
+            var $imageCropper          = jQuery('#div-gambar'),
+                $imageEditContainer    = $imageCropper.find('.image-cropper-edit'),
+                $imagePreview          = $imageCropper.find('.cropit-image-preview'),
+                $imageRemove           = $imageCropper.find('.cmb2-remove-wrapper');
+
+            if ( $imagePreview.hasClass('cropit-image-loaded') ) {
+                $imagePreview
+                    .css('background-image', '') //remove preview-images
+                    .removeClass('cropit-image-loaded');
+                $imageEditContainer.hide();
+                is_delete_gambar = true;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
